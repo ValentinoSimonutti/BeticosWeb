@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipos</title>
+</head>
+<body>
+
+<h1>Equipos</h1>
+
+<a href="/admin/equipos/nuevo">Crear nuevo equipo</a>
+
+<hr>
+
+<table border="1" cellpadding="8">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="equipo : ${equipos}">
+        <td th:text="${equipo.id}"></td>
+        <td th:text="${equipo.nombre}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

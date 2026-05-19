@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo equipo</title>
+</head>
+<body>
+
+<h1>Crear equipo</h1>
+
+<form th:action="@{/admin/equipos}" th:object="${equipo}" method="post">
+    <label>Nombre:</label>
+    <input type="text" th:field="*{nombre}" required>
+
+    <button type="submit">Guardar</button>
+</form>
+
+<hr>
+
+<a href="/admin/equipos">Volver al listado</a>
+
+</body>
+</html>

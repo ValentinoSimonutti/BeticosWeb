@@ -5,5 +5,6 @@ public enum PosicionJugador {
     ARQUERO,
     DEFENSOR,
     MEDIOCAMPISTA,
-    DELANTERO
+    DELANTERO,
+    DIRECTORTECNICO
 }

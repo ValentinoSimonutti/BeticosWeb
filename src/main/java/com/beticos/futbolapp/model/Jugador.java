@@ -21,21 +21,16 @@ public class Jugador {
 
     private boolean activo;
 
-    @ManyToOne(optional = false)
-    private Equipo equipo;
-
     public Jugador() {
     }
 
     public Jugador(String nombreCompleto,
                    String descripcion,
-                   PosicionJugador posicion,
-                   Equipo equipo) {
+                   PosicionJugador posicion) {
 
         this.nombreCompleto = nombreCompleto;
         this.descripcion = descripcion;
         this.posicion = posicion;
-        this.equipo = equipo;
         this.activo = true;
     }
 
@@ -75,11 +70,4 @@ public class Jugador {
         this.activo = activo;
     }
 
-    public Equipo getEquipo() {
-        return equipo;
-    }
-
-    public void setEquipo(Equipo equipo) {
-        this.equipo = equipo;
-    }
 }

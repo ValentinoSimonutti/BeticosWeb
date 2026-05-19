@@ -11,8 +11,6 @@ public class Partido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate fecha;
-
     private String cancha;
 
     @ManyToOne(optional = false)
@@ -28,11 +26,14 @@ public class Partido {
 
     private Integer golesVisitante;
 
+    @ManyToOne(optional = false)
+    private Fecha fecha;
+
     public Partido() {
     }
 
-    public Partido(LocalDate fechaHora, String cancha, Torneo torneo, Equipo equipoLocal, Equipo equipoVisitante) {
-        this.fecha = fechaHora;
+    public Partido(Fecha fecha, String cancha, Torneo torneo, Equipo equipoLocal, Equipo equipoVisitante, int golesLocal, int golesVisitante) {
+        this.fecha = fecha;
         this.cancha = cancha;
         this.torneo = torneo;
         this.equipoLocal = equipoLocal;
@@ -45,12 +46,12 @@ public class Partido {
         return id;
     }
 
-    public LocalDate getFechaHora() {
+    public Fecha getFecha() {
         return fecha;
     }
 
-    public void setFechaHora(LocalDate fechaHora) {
-        this.fecha = fechaHora;
+    public void setFecha(Fecha fechaHora) {
+        this.fecha = fecha;
     }
 
     public String getCancha() {

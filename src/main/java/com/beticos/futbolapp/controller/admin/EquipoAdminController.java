@@ -18,19 +18,37 @@ public class EquipoAdminController {
 
     @GetMapping
     public String listar(Model model) {
-        model.addAttribute("equipos", futbolService.findAll());
-        return "listado";
+        model.addAttribute("equipos", futbolService.listarEquipos());
+        return "admin/equipos/listado";
     }
 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("equipo", new Equipo());
-        return "formulario";
+        return "admin/equipos/formulario";
     }
 
     @PostMapping
     public String guardar(@ModelAttribute Equipo equipo) {
-        futbolService.save(equipo.getNombre());
+        futbolService.crearEquipo(equipo.getNombre());
+        return "redirect:/admin/equipos";
+    }
+
+    @GetMapping("/{id}/editar")
+    public String editar(@PathVariable Long id, Model model) {
+        model.addAttribute("equipo", futbolService.buscarEquipoPorId(id));
+        return "admin/equipos/actualizar_datos";
+    }
+
+    @PostMapping("/{id}/editar")
+    public String actualizar(@PathVariable Long id, @ModelAttribute Equipo equipo) {
+        futbolService.actualizarEquipo(id, equipo.getNombre());
+        return "redirect:/admin/equipos";
+    }
+
+    @PostMapping("/{id}/borrar")
+    public String borrar(@PathVariable Long id) {
+        this.futbolService.borrarEquipo(id);
         return "redirect:/admin/equipos";
     }
 }

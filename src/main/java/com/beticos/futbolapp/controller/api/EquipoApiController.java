@@ -18,12 +18,12 @@ public class EquipoApiController {
 
     @GetMapping
     public List<Equipo> listarEquipos() {
-        return futbolService.findAll();
+        return futbolService.listarEquipos();
     }
 
     @GetMapping("/{nombre}")
     public Equipo buscarPorNombre(@PathVariable String nombre) {
-        return futbolService.findByNombre(nombre);
+        return futbolService.buscarEquipoPorNombre(nombre);
     }
 
 }

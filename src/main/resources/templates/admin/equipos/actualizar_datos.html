@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Actualizar equipo</title>
+</head>
+<body>
+
+<h1>Actualizar equipo</h1>
+
+<h2>Datos actuales</h2>
+
+<p>
+    <strong>ID:</strong>
+    <span th:text="${equipo.id}"></span>
+</p>
+
+<p>
+    <strong>Nombre actual:</strong>
+    <span th:text="${equipo.nombre}"></span>
+</p>
+
+<hr>
+
+<h2>Editar datos</h2>
+
+<form th:action="@{/admin/equipos/{id}/editar(id=${equipo.id})}"
+      th:object="${equipo}"
+      method="post"
+      onsubmit="return confirm('¿Seguro que querés actualizar los datos de este equipo?');">
+
+    <label for="nombre">Nuevo nombre:</label>
+    <input type="text"
+           id="nombre"
+           th:field="*{nombre}"
+           required>
+
+    <br><br>
+
+    <button type="submit">Guardar cambios</button>
+</form>
+
+<br>
+
+<a href="/admin/equipos">Volver al listado</a>
+
+</body>
+</html>

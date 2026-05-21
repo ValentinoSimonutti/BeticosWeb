@@ -2,8 +2,12 @@ package com.beticos.futbolapp.model;
 
 import com.beticos.futbolapp.model.enums.PosicionJugador;
 import jakarta.persistence.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
+@SQLDelete(sql = "UPDATE jugador SET eliminado = true WHERE id = ?")
+@Where(clause = "eliminado = false")
 public class Jugador {
 
     @Id
@@ -20,6 +24,9 @@ public class Jugador {
     private PosicionJugador posicion;
 
     private boolean activo;
+
+    @Column(nullable = false)
+    private boolean eliminado = false;
 
     public Jugador() {
     }
@@ -68,6 +75,14 @@ public class Jugador {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
     }
 
 }

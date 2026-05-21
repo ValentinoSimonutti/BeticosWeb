@@ -1,6 +1,8 @@
 package com.beticos.futbolapp.service;
 
 import com.beticos.futbolapp.model.Equipo;
+import com.beticos.futbolapp.model.Jugador;
+import com.beticos.futbolapp.model.enums.PosicionJugador;
 import com.beticos.futbolapp.repository.EquipoRepository;
 import com.beticos.futbolapp.repository.JugadorRepository;
 import org.springframework.stereotype.Service;
@@ -58,7 +60,40 @@ public class FutbolService {
         return equipoRepository.findByNombre(nombre);
     }
 
+    @Transactional(readOnly = true)
+    public List<Jugador> listarJugadores() {
+        return jugadorRepository.findAll();
+    }
 
+    @Transactional
+    public Jugador crearJugador(String nombre, String descripcion, PosicionJugador posicion) {
+        Jugador jugador = new Jugador(nombre, descripcion, posicion);
+                return jugadorRepository.save(jugador);
+    }
 
+    @Transactional(readOnly = true)
+    public Jugador buscarJugadorPorId(Long id) {
+        return jugadorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
+    }
 
+    @Transactional
+    public Jugador actualizarJugador(Long id, String nombreCompleto, String descripcion, PosicionJugador posicion) {
+        Jugador jugador = jugadorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Jugador no encontrado"));
+
+        jugador.setNombreCompleto(nombreCompleto);
+        jugador.setDescripcion(descripcion);
+        jugador.setPosicion(posicion);
+
+        return jugadorRepository.save(jugador);
+    }
+
+    @Transactional
+    public void borrarJugador(Long id) {
+        if (!jugadorRepository.existsById(id)) {
+            throw new RuntimeException("Jugador no encontrado");
+        }
+        jugadorRepository.deleteById(id);
+    }
 }

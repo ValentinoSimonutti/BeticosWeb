@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Jugadores</title>
+</head>
+<body>
+
+<h1>Jugadores</h1>
+
+<a href="/admin/jugadores/nuevo">Crear nuevo jugador</a>
+
+<hr>
+
+<table border="1" cellpadding="8">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre completo</th>
+        <th>Descripcion</th>
+        <th>Posicion</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="jugador : ${jugadores}">
+        <td th:text="${jugador.id}"></td>
+        <td th:text="${jugador.nombreCompleto}"></td>
+        <td th:text="${jugador.descripcion}"></td>
+        <td th:text="${jugador.posicion}"></td>
+        <td>
+            <a th:href="@{/admin/jugadores/{id}/editar(id=${jugador.id})}">Editar</a>
+            <form th:action="@{/admin/jugadores/{id}/borrar(id=${jugador.id})}" method="post"
+                  onsubmit="return confirm('¿Seguro que querés borrar este jugador?');">
+                <button type="submit">Borrar</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

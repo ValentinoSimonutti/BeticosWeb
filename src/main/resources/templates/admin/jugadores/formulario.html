@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo jugador</title>
+</head>
+<body>
+
+<h1>Crear jugador</h1>
+
+<form th:action="@{/admin/jugadores}" th:object="${jugador}" method="post">
+    <label>Nombre completo:</label>
+    <input type="text" th:field="*{nombreCompleto}" required>
+
+    <br><br>
+
+    <label>Descripcion:</label>
+    <textarea th:field="*{descripcion}"></textarea>
+
+    <br><br>
+
+    <label>Posicion:</label>
+    <select th:field="*{posicion}" required>
+        <option value="">Seleccionar posicion</option>
+        <option th:each="posicion : ${T(com.beticos.futbolapp.model.enums.PosicionJugador).values()}"
+                th:value="${posicion}"
+                th:text="${posicion}">
+        </option>
+    </select>
+
+    <br><br>
+
+    <button type="submit">Guardar</button>
+</form>
+
+<hr>
+
+<a href="/admin/jugadores">Volver al listado</a>
+
+</body>
+</html>

@@ -2,10 +2,14 @@ package com.beticos.futbolapp.model;
 
 import com.beticos.futbolapp.model.enums.EstadoTorneo;
 import jakarta.persistence.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
 
 @Entity
+@SQLDelete(sql = "UPDATE torneo SET activo = false WHERE id=?")
+@Where(clause = "activo = true")
 public class Torneo {
 
     @Id
@@ -21,6 +25,8 @@ public class Torneo {
 
     @Enumerated(EnumType.STRING)
     private EstadoTorneo estado;
+
+    private boolean activo = true;
 
     public Torneo() {
     }

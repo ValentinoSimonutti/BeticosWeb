@@ -1,24 +1,36 @@
 package com.beticos.futbolapp.service;
 
 import com.beticos.futbolapp.model.Equipo;
+import com.beticos.futbolapp.model.EquipoTorneo;
 import com.beticos.futbolapp.model.Jugador;
+import com.beticos.futbolapp.model.Torneo;
+import com.beticos.futbolapp.model.enums.EstadoTorneo;
 import com.beticos.futbolapp.model.enums.PosicionJugador;
 import com.beticos.futbolapp.repository.EquipoRepository;
+import com.beticos.futbolapp.repository.EquipoTorneoRepository;
 import com.beticos.futbolapp.repository.JugadorRepository;
+import com.beticos.futbolapp.repository.TorneoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 @Service
 public class FutbolService {
 
     private final EquipoRepository equipoRepository;
     private final JugadorRepository jugadorRepository;
+    private final TorneoRepository torneoRepository;
+    private final EquipoTorneoRepository equipoTorneoRepository;
 
     public FutbolService(EquipoRepository equipoRepository,
-                         JugadorRepository jugadorRepository) {
+                         JugadorRepository jugadorRepository,
+                         TorneoRepository torneoRepository,
+                         EquipoTorneoRepository equipoTorneoRepository) {
         this.equipoRepository = equipoRepository;
         this.jugadorRepository = jugadorRepository;
+        this.torneoRepository = torneoRepository;
+        this.equipoTorneoRepository = equipoTorneoRepository;
     }
 
     @Transactional
@@ -74,7 +86,7 @@ public class FutbolService {
     @Transactional(readOnly = true)
     public Jugador buscarJugadorPorId(Long id) {
         return jugadorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Jugador no encontrado"));
     }
 
     @Transactional
@@ -95,5 +107,58 @@ public class FutbolService {
             throw new RuntimeException("Jugador no encontrado");
         }
         jugadorRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Torneo crearTorneo(String nombre, LocalDate fechaInicio, LocalDate fechaFin, EstadoTorneo estado) {
+        Torneo torneo = new Torneo(nombre, fechaInicio, fechaFin, estado);
+        return torneoRepository.save(torneo);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Torneo> listarTorneos() {
+        return torneoRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Torneo buscarTorneoPorId(Long id) {
+        return torneoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Torneo no encontrado"));
+    }
+
+    @Transactional
+    public EquipoTorneo agregarEquipoATorneo(Long equipoId, Long torneoId) {
+        Equipo equipo = buscarEquipoPorId(equipoId);
+        Torneo torneo = buscarTorneoPorId(torneoId);
+
+        EquipoTorneo equipoTorneo = new EquipoTorneo(equipo, torneo);
+        return equipoTorneoRepository.save(equipoTorneo);
+    }
+
+    @Transactional
+    public Torneo actualizarTorneo(Long id,
+                                   String nombre,
+                                   LocalDate fechaInicio,
+                                   LocalDate fechaFin,
+                                   EstadoTorneo estado) {
+
+        Torneo torneo = buscarTorneoPorId(id);
+
+        torneo.setNombre(nombre);
+        torneo.setFechaInicio(fechaInicio);
+        torneo.setFechaFin(fechaFin);
+        torneo.setEstado(estado);
+
+        return torneoRepository.save(torneo);
+    }
+
+    @Transactional
+    public void borrarTorneo(Long id) {
+
+        if (!torneoRepository.existsById(id)) {
+            throw new RuntimeException("Torneo no encontrado");
+        }
+
+        torneoRepository.deleteById(id);
     }
 }

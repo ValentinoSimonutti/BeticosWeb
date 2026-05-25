@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Actualizar torneo</title>
+</head>
+<body>
+
+<h1>Actualizar torneo</h1>
+
+<h2>Datos actuales</h2>
+
+<p>
+    <strong>ID:</strong>
+    <span th:text="${torneo.id}"></span>
+</p>
+
+<p>
+    <strong>Nombre actual:</strong>
+    <span th:text="${torneo.nombre}"></span>
+</p>
+
+<p>
+    <strong>Fecha inicio actual:</strong>
+    <span th:text="${torneo.fechaInicio}"></span>
+</p>
+
+<p>
+    <strong>Fecha fin actual:</strong>
+    <span th:text="${torneo.fechaFin}"></span>
+</p>
+
+<p>
+    <strong>Estado actual:</strong>
+    <span th:text="${torneo.estado}"></span>
+</p>
+
+<hr>
+
+<h2>Editar datos</h2>
+
+<form th:action="@{/admin/torneos/{id}/editar(id=${torneo.id})}"
+      th:object="${torneo}"
+      method="post"
+      onsubmit="return confirm('¿Seguro que querés actualizar los datos de este torneo?');">
+
+    <label>Nombre:</label>
+    <input type="text" th:field="*{nombre}" required>
+
+    <br><br>
+
+    <label>Fecha inicio:</label>
+    <input type="date" th:field="*{fechaInicio}">
+
+    <br><br>
+
+    <label>Fecha fin:</label>
+    <input type="date" th:field="*{fechaFin}">
+
+    <br><br>
+
+    <label>Estado:</label>
+    <select th:field="*{estado}" required>
+        <option th:each="estado : ${estados}"
+                th:value="${estado}"
+                th:text="${estado}">
+        </option>
+    </select>
+
+    <br><br>
+
+    <button type="submit">Guardar cambios</button>
+</form>
+
+<br>
+
+<a href="/admin/torneos">Volver al listado</a>
+
+</body>
+</html>

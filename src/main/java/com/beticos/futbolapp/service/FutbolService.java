@@ -1,5 +1,6 @@
 package com.beticos.futbolapp.service;
 
+import com.beticos.futbolapp.exception.ResourceNotFoundException;
 import com.beticos.futbolapp.model.Equipo;
 import com.beticos.futbolapp.model.EquipoTorneo;
 import com.beticos.futbolapp.model.Jugador;
@@ -42,7 +43,7 @@ public class FutbolService {
     @Transactional
     public Equipo actualizarEquipo(Long id, String nombre) {
         Equipo equipo = equipoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Equipo no encontrado"));
 
         equipo.setNombre(nombre);
         return equipoRepository.save(equipo);
@@ -51,7 +52,7 @@ public class FutbolService {
     @Transactional
     public void borrarEquipo(Long id) {
         if (!equipoRepository.existsById(id)) {
-            throw new RuntimeException("Equipo no encontrado");
+            throw new ResourceNotFoundException("Equipo no encontrado");
         }
         equipoRepository.deleteById(id);
     }
@@ -64,7 +65,7 @@ public class FutbolService {
     @Transactional(readOnly = true)
     public Equipo buscarEquipoPorId(Long id) {
         return equipoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Equipo no encontrado"));
     }
 
     @Transactional(readOnly = true)
@@ -86,13 +87,13 @@ public class FutbolService {
     @Transactional(readOnly = true)
     public Jugador buscarJugadorPorId(Long id) {
         return jugadorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Jugador no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Jugador no encontrado"));
     }
 
     @Transactional
     public Jugador actualizarJugador(Long id, String nombreCompleto, String descripcion, PosicionJugador posicion) {
         Jugador jugador = jugadorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Jugador no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Jugador no encontrado"));
 
         jugador.setNombreCompleto(nombreCompleto);
         jugador.setDescripcion(descripcion);
@@ -104,7 +105,7 @@ public class FutbolService {
     @Transactional
     public void borrarJugador(Long id) {
         if (!jugadorRepository.existsById(id)) {
-            throw new RuntimeException("Jugador no encontrado");
+            throw new ResourceNotFoundException("Jugador no encontrado");
         }
         jugadorRepository.deleteById(id);
     }
@@ -123,7 +124,7 @@ public class FutbolService {
     @Transactional(readOnly = true)
     public Torneo buscarTorneoPorId(Long id) {
         return torneoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Torneo no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Torneo no encontrado"));
     }
 
     @Transactional
@@ -156,7 +157,7 @@ public class FutbolService {
     public void borrarTorneo(Long id) {
 
         if (!torneoRepository.existsById(id)) {
-            throw new RuntimeException("Torneo no encontrado");
+            throw new ResourceNotFoundException("Torneo no encontrado");
         }
 
         torneoRepository.deleteById(id);

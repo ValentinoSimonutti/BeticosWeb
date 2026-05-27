@@ -1,7 +1,7 @@
 package com.beticos.futbolapp.controller.api;
 
 import com.beticos.futbolapp.model.Equipo;
-import com.beticos.futbolapp.service.FutbolService;
+import com.beticos.futbolapp.service.EquipoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,20 +10,20 @@ import java.util.List;
 @RequestMapping("/api/equipos")
 public class EquipoApiController {
 
-    private final FutbolService futbolService;
+    private final EquipoService equipoService;
 
-    public EquipoApiController(FutbolService futbolService) {
-        this.futbolService = futbolService;
+    public EquipoApiController(EquipoService equipoService) {
+        this.equipoService = equipoService;
     }
 
     @GetMapping
     public List<Equipo> listarEquipos() {
-        return futbolService.listarEquipos();
+        return equipoService.listarEquipos();
     }
 
     @GetMapping("/{nombre}")
     public Equipo buscarPorNombre(@PathVariable String nombre) {
-        return futbolService.buscarEquipoPorNombre(nombre);
+        return equipoService.buscarEquipoPorNombre(nombre);
     }
 
 }

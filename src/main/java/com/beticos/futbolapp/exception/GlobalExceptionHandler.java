@@ -16,4 +16,13 @@ public class GlobalExceptionHandler {
         return "error/404";
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public String handleBadRequest(BadRequestException ex,
+                                         Model model) {
+
+        model.addAttribute("mensaje", ex.getMessage());
+
+        return "error/400";
+    }
+
 }

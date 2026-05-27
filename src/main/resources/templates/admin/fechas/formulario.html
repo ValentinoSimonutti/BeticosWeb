@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva fecha</title>
+</head>
+<body>
+
+<h1>Crear fecha</h1>
+
+<p>
+    <strong>Torneo:</strong>
+    <span th:text="${torneo.nombre}"></span>
+</p>
+
+<form th:action="@{/admin/torneos/{torneoId}/fechas(torneoId=${torneo.id})}"
+      th:object="${fecha}"
+      method="post">
+
+    <label>Numero:</label>
+    <input type="number" th:field="*{numero}" min="1" required>
+
+    <br><br>
+
+    <label>Dia:</label>
+    <input type="date" th:field="*{dia}">
+
+    <br><br>
+
+    <button type="submit">Guardar</button>
+</form>
+
+<hr>
+
+<a th:href="@{/admin/torneos/{torneoId}/fechas(torneoId=${torneo.id})}">Volver al listado</a>
+
+</body>
+</html>

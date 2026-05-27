@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fechas</title>
+</head>
+<body>
+
+<h1>Fechas</h1>
+
+<p>
+    <strong>Torneo:</strong>
+    <span th:text="${torneo.nombre}"></span>
+</p>
+
+<a th:href="@{/admin/torneos/{torneoId}/fechas/nueva(torneoId=${torneo.id})}">Crear nueva fecha</a>
+
+<hr>
+
+<table border="1" cellpadding="8">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Numero</th>
+        <th>Dia</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="fecha : ${fechas}">
+        <td th:text="${fecha.id}"></td>
+        <td th:text="${fecha.numero}"></td>
+        <td th:text="${fecha.dia}"></td>
+        <td>
+            <a th:href="@{/admin/torneos/{torneoId}/fechas/{fechaId}/editar(torneoId=${torneo.id}, fechaId=${fecha.id})}">Editar</a>
+
+            <form th:action="@{/admin/torneos/{torneoId}/fechas/{fechaId}/borrar(torneoId=${torneo.id}, fechaId=${fecha.id})}"
+                  method="post"
+                  onsubmit="return confirm('Seguro que queres borrar esta fecha?');">
+                <button type="submit">Borrar</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<hr>
+
+<a href="/admin/torneos">Volver a torneos</a>
+
+</body>
+</html>

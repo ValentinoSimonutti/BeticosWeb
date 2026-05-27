@@ -2,7 +2,7 @@ package com.beticos.futbolapp.controller.admin;
 
 import com.beticos.futbolapp.model.Torneo;
 import com.beticos.futbolapp.model.enums.EstadoTorneo;
-import com.beticos.futbolapp.service.FutbolService;
+import com.beticos.futbolapp.service.TorneoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/torneos")
 public class TorneoAdminController {
 
-    private final FutbolService futbolService;
+    private final  TorneoService torneoService;
 
-    public TorneoAdminController(FutbolService futbolService) {
-        this.futbolService = futbolService;
+    public TorneoAdminController(TorneoService torneoService) {
+        this.torneoService = torneoService;
     }
 
     @GetMapping
     public String listar(Model model) {
-        model.addAttribute("torneos", futbolService.listarTorneos());
+        model.addAttribute("torneos", torneoService.listarTorneos());
         return "admin/torneos/listado";
     }
 
@@ -32,7 +32,7 @@ public class TorneoAdminController {
 
     @PostMapping
     public String guardar(@ModelAttribute Torneo torneo) {
-        futbolService.crearTorneo(
+        torneoService.crearTorneo(
                 torneo.getNombre(),
                 torneo.getFechaInicio(),
                 torneo.getFechaFin(),
@@ -44,14 +44,14 @@ public class TorneoAdminController {
 
     @GetMapping("/{id}/editar")
     public String editar(@PathVariable Long id, Model model) {
-        model.addAttribute("torneo", futbolService.buscarTorneoPorId(id));
+        model.addAttribute("torneo", torneoService.buscarTorneoPorId(id));
         model.addAttribute("estados", EstadoTorneo.values());
         return "admin/torneos/actualizar_datos";
     }
 
     @PostMapping("/{id}/editar")
     public String actualizar(@PathVariable Long id, @ModelAttribute Torneo torneo) {
-        futbolService.actualizarTorneo(
+        torneoService.actualizarTorneo(
                 id,
                 torneo.getNombre(),
                 torneo.getFechaInicio(),
@@ -64,7 +64,7 @@ public class TorneoAdminController {
 
     @PostMapping("/{id}/borrar")
     public String borrar(@PathVariable Long id) {
-        futbolService.borrarTorneo(id);
+        torneoService.borrarTorneo(id);
         return "redirect:/admin/torneos";
     }
 }

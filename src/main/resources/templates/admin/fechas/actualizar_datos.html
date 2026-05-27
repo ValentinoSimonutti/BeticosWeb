@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Actualizar fecha</title>
+</head>
+<body>
+
+<h1>Actualizar fecha</h1>
+
+<p>
+    <strong>Torneo:</strong>
+    <span th:text="${torneo.nombre}"></span>
+</p>
+
+<h2>Datos actuales</h2>
+
+<p>
+    <strong>ID:</strong>
+    <span th:text="${fecha.id}"></span>
+</p>
+
+<p>
+    <strong>Numero actual:</strong>
+    <span th:text="${fecha.numero}"></span>
+</p>
+
+<p>
+    <strong>Dia actual:</strong>
+    <span th:text="${fecha.dia}"></span>
+</p>
+
+<hr>
+
+<h2>Editar datos</h2>
+
+<form th:action="@{/admin/torneos/{torneoId}/fechas/{fechaId}/editar(torneoId=${torneo.id}, fechaId=${fecha.id})}"
+      th:object="${fecha}"
+      method="post"
+      onsubmit="return confirm('Seguro que queres actualizar esta fecha?');">
+
+    <label>Numero:</label>
+    <input type="number" th:field="*{numero}" min="1" required>
+
+    <br><br>
+
+    <label>Dia:</label>
+    <input type="date" th:field="*{dia}">
+
+    <br><br>
+
+    <button type="submit">Guardar cambios</button>
+</form>
+
+<hr>
+
+<a th:href="@{/admin/torneos/{torneoId}/fechas(torneoId=${torneo.id})}">Volver al listado</a>
+
+</body>
+</html>

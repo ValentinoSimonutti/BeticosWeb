@@ -33,6 +33,10 @@
         <td>
             <a th:href="@{/admin/torneos/{id}/fechas(id=${torneo.id})}">Fechas</a>
 
+            <a th:href="@{/admin/torneos/{id}/equipos(id=${torneo.id})}">
+                Equipos
+            </a>
+
             <a th:href="@{/admin/torneos/{id}/editar(id=${torneo.id})}">Editar</a>
 
             <form th:action="@{/admin/torneos/{id}/borrar(id=${torneo.id})}"

@@ -2,8 +2,6 @@ package com.beticos.futbolapp.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-
 @Entity
 public class Partido {
 
@@ -11,7 +9,7 @@ public class Partido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String cancha;
+    private int cancha;
 
     @ManyToOne(optional = false)
     private Torneo torneo;
@@ -32,14 +30,14 @@ public class Partido {
     public Partido() {
     }
 
-    public Partido(Fecha fecha, String cancha, Torneo torneo, Equipo equipoLocal, Equipo equipoVisitante, int golesLocal, int golesVisitante) {
+    public Partido(Fecha fecha, int cancha, Torneo torneo, Equipo equipoLocal, Equipo equipoVisitante, int golesLocal, int golesVisitante) {
         this.fecha = fecha;
         this.cancha = cancha;
         this.torneo = torneo;
         this.equipoLocal = equipoLocal;
         this.equipoVisitante = equipoVisitante;
-        this.golesLocal = 0;
-        this.golesVisitante = 0;
+        this.golesLocal = null;
+        this.golesVisitante = null;
     }
 
     public Long getId() {
@@ -54,11 +52,11 @@ public class Partido {
         this.fecha = fecha;
     }
 
-    public String getCancha() {
+    public int getCancha() {
         return cancha;
     }
 
-    public void setCancha(String cancha) {
+    public void setCancha(int cancha) {
         this.cancha = cancha;
     }
 

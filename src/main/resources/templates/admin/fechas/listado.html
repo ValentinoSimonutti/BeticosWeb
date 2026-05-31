@@ -34,6 +34,10 @@
         <td>
             <a th:href="@{/admin/torneos/{torneoId}/fechas/{fechaId}/editar(torneoId=${torneo.id}, fechaId=${fecha.id})}">Editar</a>
 
+            <a th:href="@{/admin/fechas/{id}/partidos(id=${fecha.id})}">
+                Partidos
+            </a>
+
             <form th:action="@{/admin/torneos/{torneoId}/fechas/{fechaId}/borrar(torneoId=${torneo.id}, fechaId=${fecha.id})}"
                   method="post"
                   onsubmit="return confirm('Seguro que queres borrar esta fecha?');">

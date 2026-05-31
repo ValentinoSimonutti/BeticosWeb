@@ -12,6 +12,8 @@ import com.beticos.futbolapp.repository.TorneoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class EquipoTorneoService {
 
@@ -25,6 +27,17 @@ public class EquipoTorneoService {
         this.equipoRepository = equipoRepository;
         this.torneoRepository = torneoRepository;
         this.equipoTorneoRepository = equipoTorneoRepository;
+    }
+
+    @Transactional(readOnly = true)
+    public List<EquipoTorneo> listarEquiposDeTorneo(Long torneoId) {
+
+        Torneo torneo = torneoRepository.findById(torneoId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Torneo no encontrado"));
+
+        return equipoTorneoRepository
+                .findByTorneoOrderByPuntosDescDiferenciaGolDescGolesFavorDesc(torneo);
     }
 
     @Transactional
@@ -41,5 +54,21 @@ public class EquipoTorneoService {
 
         EquipoTorneo equipoTorneo = new EquipoTorneo(equipo, torneo);
         return equipoTorneoRepository.save(equipoTorneo);
+    }
+
+    @Transactional
+    public void quitarEquipoDeTorneo(Long equipoId, Long torneoId) {
+
+        Equipo equipo = equipoRepository.findById(equipoId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Equipo no encontrado"));
+
+        Torneo torneo = torneoRepository.findById(torneoId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Torneo no encontrado"));
+
+        equipoTorneoRepository.deleteByEquipoAndTorneo(
+                equipo,
+                torneo);
     }
 }

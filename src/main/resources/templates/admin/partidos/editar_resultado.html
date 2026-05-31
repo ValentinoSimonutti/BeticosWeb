@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar resultado</title>
+</head>
+<body>
+
+<h1>Editar resultado</h1>
+
+<h3>
+    <span th:text="${partido.equipoLocal.nombre}"></span>
+    vs
+    <span th:text="${partido.equipoVisitante.nombre}"></span>
+</h3>
+
+<p>
+    Fecha:
+    <span th:text="${fecha.numero}"></span>
+</p>
+
+<form th:action="@{/admin/fechas/{fechaId}/partidos/{partidoId}/editar(
+        fechaId=${fecha.id},
+        partidoId=${partido.id})}"
+      method="post">
+
+    <div>
+
+        <label>Goles local</label>
+
+        <input type="number"
+               min="0"
+               name="golesLocal"
+               th:value="${partido.golesLocal}"
+               required>
+
+    </div>
+
+    <br>
+
+    <div>
+
+        <label>Goles visitante</label>
+
+        <input type="number"
+               min="0"
+               name="golesVisitante"
+               th:value="${partido.golesVisitante}"
+               required>
+
+    </div>
+
+    <br>
+
+    <button type="submit">
+        Guardar resultado
+    </button>
+
+</form>
+
+<br>
+
+<a th:href="@{/admin/fechas/{id}/partidos(id=${fecha.id})}">
+    Volver a partidos
+</a>
+
+</body>
+</html>

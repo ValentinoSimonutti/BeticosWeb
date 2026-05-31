@@ -2,6 +2,8 @@ package com.beticos.futbolapp.controller.admin;
 
 import com.beticos.futbolapp.model.Torneo;
 import com.beticos.futbolapp.model.enums.EstadoTorneo;
+import com.beticos.futbolapp.service.EquipoService;
+import com.beticos.futbolapp.service.EquipoTorneoService;
 import com.beticos.futbolapp.service.TorneoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,10 +13,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/torneos")
 public class TorneoAdminController {
 
-    private final  TorneoService torneoService;
+    private final TorneoService torneoService;
+    private final EquipoService equipoService;
+    private final EquipoTorneoService equipoTorneoService;
 
-    public TorneoAdminController(TorneoService torneoService) {
+    public TorneoAdminController(TorneoService torneoService,EquipoService equipoService,EquipoTorneoService equipoTorneoService) {
+        this.equipoService = equipoService;
         this.torneoService = torneoService;
+        this.equipoTorneoService = equipoTorneoService;
     }
 
     @GetMapping
@@ -66,5 +72,49 @@ public class TorneoAdminController {
     public String borrar(@PathVariable Long id) {
         torneoService.borrarTorneo(id);
         return "redirect:/admin/torneos";
+    }
+
+    @GetMapping("/{id}/equipos")
+    public String administrarEquipos(
+            @PathVariable Long id,
+            Model model) {
+
+        model.addAttribute(
+                "torneo",
+                torneoService.buscarTorneoPorId(id));
+
+        model.addAttribute(
+                "equiposDisponibles",
+                equipoService.listarEquipos());
+
+        model.addAttribute(
+                "equiposInscriptos",
+                equipoTorneoService.listarEquiposDeTorneo(id));
+
+        return "admin/torneos/equipos";
+    }
+
+    @PostMapping("/{torneoId}/equipos")
+    public String agregarEquipo(
+            @PathVariable Long torneoId,
+            @RequestParam Long equipoId) {
+
+        equipoTorneoService.agregarEquipoATorneo(
+                equipoId,
+                torneoId);
+
+        return "redirect:/admin/torneos/" + torneoId + "/equipos";
+    }
+    
+    @PostMapping("/{torneoId}/equipos/{equipoId}/borrar")
+    public String quitarEquipo(
+            @PathVariable Long torneoId,
+            @PathVariable Long equipoId) {
+
+        equipoTorneoService.quitarEquipoDeTorneo(
+                equipoId,
+                torneoId);
+
+        return "redirect:/admin/torneos/" + torneoId + "/equipos";
     }
 }

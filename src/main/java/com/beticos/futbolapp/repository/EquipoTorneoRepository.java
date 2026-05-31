@@ -12,4 +12,6 @@ public interface EquipoTorneoRepository extends JpaRepository<EquipoTorneo, Long
     List<EquipoTorneo> findByTorneoOrderByPuntosDescDiferenciaGolDescGolesFavorDesc(Torneo torneo);
 
     boolean existsByEquipoAndTorneo(Equipo equipo, Torneo torneo);
+
+    void deleteByEquipoAndTorneo(Equipo equipo, Torneo torneo);
 }

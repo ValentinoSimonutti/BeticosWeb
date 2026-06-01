@@ -6,6 +6,7 @@ import com.beticos.futbolapp.model.Torneo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EquipoTorneoRepository extends JpaRepository<EquipoTorneo, Long> {
 
@@ -14,4 +15,9 @@ public interface EquipoTorneoRepository extends JpaRepository<EquipoTorneo, Long
     boolean existsByEquipoAndTorneo(Equipo equipo, Torneo torneo);
 
     void deleteByEquipoAndTorneo(Equipo equipo, Torneo torneo);
+
+    Optional<EquipoTorneo> findByEquipoAndTorneo(
+            Equipo equipo,
+            Torneo torneo);
+
 }

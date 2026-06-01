@@ -1,39 +1,81 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Equipos</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
+
 <body>
 
-<h1>Equipos</h1>
+<div class="container">
 
-<a href="/admin/equipos/nuevo">Crear nuevo equipo</a>
+    <div class="card">
 
-<hr>
+        <h1>Equipos</h1>
 
-<table border="1" cellpadding="8">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="equipo : ${equipos}">
-        <td th:text="${equipo.id}"></td>
-        <td th:text="${equipo.nombre}"></td>
-        <td>
-            <a th:href="@{/admin/equipos/{id}/editar(id=${equipo.id})}">Editar</a>
-            <form th:action="@{/admin/equipos/{id}/borrar(id=${equipo.id})}" method="post"
-                  onsubmit="return confirm('¿Seguro que querés borrar este equipo?');">
-                  <button type="submit" >Borrar</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+        <a href="/admin/equipos/nuevo"
+           class="btn btn-primary">
+            Crear nuevo equipo
+        </a>
+
+    </div>
+
+    <br>
+
+    <div class="card">
+
+        <table>
+
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="equipo : ${equipos}">
+
+                <td th:text="${equipo.id}"></td>
+
+                <td th:text="${equipo.nombre}"></td>
+
+                <td class="actions">
+
+                    <a th:href="@{/admin/equipos/{id}/editar(id=${equipo.id})}"
+                       class="btn btn-warning">
+                        Editar
+                    </a>
+
+                    <form th:action="@{/admin/equipos/{id}/borrar(id=${equipo.id})}"
+                          method="post"
+                          onsubmit="return confirm('¿Seguro que querés borrar este equipo?');">
+
+                        <button type="submit"
+                                class="btn btn-danger">
+
+                            Borrar
+
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
 
 </body>
+
 </html>

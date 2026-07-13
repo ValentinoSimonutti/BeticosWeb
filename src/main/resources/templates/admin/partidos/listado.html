@@ -16,9 +16,7 @@
     <span th:text="${fecha.torneo.nombre}"></span>
 </h3>
 
-<a th:href="@{/admin/torneos/{id}/fechas(id=${fecha.torneo.id})}">
-    Volver a fechas
-</a>
+
 
 <hr>
 
@@ -98,6 +96,22 @@
 
         <input type="number"
                name="golesVisitante">
+
+    </div>
+
+    <br>
+
+    <div>
+        <label>Eventos del Partido </label>
+        <select required>
+
+            <option value="">
+            </option>
+
+            <option>
+            </option>
+
+        </select>
 
     </div>
 
@@ -194,6 +208,10 @@
     </tbody>
 
 </table>
+
+<a th:href="@{/admin/torneos/{id}/fechas(id=${fecha.torneo.id})}">
+    Volver a fechas
+</a>
 
 </body>
 </html>

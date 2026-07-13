@@ -19,8 +19,6 @@ public class EventoPartido {
     @Enumerated(EnumType.STRING)
     private TipoEventoPartido tipo;
 
-    private Integer cantidad;
-
     public EventoPartido() {
     }
 
@@ -28,7 +26,6 @@ public class EventoPartido {
         this.partido = partido;
         this.jugador = jugador;
         this.tipo = tipo;
-        this.cantidad = cantidad;
     }
 
     // getters y setters

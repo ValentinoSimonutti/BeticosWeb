@@ -28,17 +28,21 @@ public class Jugador {
     @Column(nullable = false)
     private boolean eliminado = false;
 
+    @ManyToOne
+    private Equipo equipo;
+
     public Jugador() {
     }
 
     public Jugador(String nombreCompleto,
                    String descripcion,
-                   PosicionJugador posicion) {
+                   PosicionJugador posicion, Equipo equipo) {
 
         this.nombreCompleto = nombreCompleto;
         this.descripcion = descripcion;
         this.posicion = posicion;
         this.activo = true;
+        this.equipo = null;
     }
 
     public Long getId() {

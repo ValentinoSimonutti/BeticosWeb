@@ -27,6 +27,8 @@ public class Partido {
     @ManyToOne(optional = false)
     private Fecha fecha;
 
+    private boolean resultadoCargado;
+
     public Partido() {
     }
 
@@ -38,6 +40,7 @@ public class Partido {
         this.equipoVisitante = equipoVisitante;
         this.golesLocal = null;
         this.golesVisitante = null;
+        this.resultadoCargado = false;
     }
 
     public Long getId() {
@@ -49,7 +52,7 @@ public class Partido {
     }
 
     public void setFecha(Fecha fechaHora) {
-        this.fecha = fecha;
+        this.fecha = fechaHora;
     }
 
     public int getCancha() {

@@ -31,7 +31,6 @@ public class EquipoTorneo {
 
     private Integer puntos;
 
-
     public EquipoTorneo() {
     }
 

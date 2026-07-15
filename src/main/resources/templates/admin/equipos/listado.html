@@ -15,16 +15,14 @@
 
         <h1>Equipos</h1>
 
-        <a href="/admin/equipos/nuevo"
+        <a th:href="@{/admin/equipos/nuevo}"
            class="btn btn-primary">
             Crear nuevo equipo
         </a>
 
     </div>
 
-    <br>
-
-    <div class="card">
+    <div class="card mt-20">
 
         <table>
 
@@ -72,12 +70,15 @@
 
         </table>
 
+        <div class="actions mt-20">
+            <a th:href="@{/admin/home}"
+               class="btn btn-warning">
+                Volver al inicio
+            </a>
+        </div>
+
     </div>
 
-</div>
-
-<div class="container">
-<a href="/admin/home" style="text-align:center;" > Volver al Inicio </a>
 </div>
 
 </body>

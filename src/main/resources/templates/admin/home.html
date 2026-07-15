@@ -1,28 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Panel de administración</title>
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+
 </head>
+
 <body>
 
-<h1>Panel de administración - Béticos</h1>
+<main class="container admin-home">
 
-<ul>
-    <li><a href="/admin/equipos">Gestionar equipos</a></li>
-    <li><a href="/admin/jugadores">Gestionar jugadores</a></li>
-    <li><a href="/admin/torneos">Gestionar torneos</a></li>
-</ul>
+    <section class="card home-hero">
 
-<hr>
+        <div class="home-brand">
 
-<h2>Próximamente</h2>
-<ul>
-    <li>Gestionar fechas</li>
-    <li>Gestionar partidos</li>
-    <li>Cargar goles, amarillas y rojas</li>
-    <li>Ver tabla de posiciones</li>
-</ul>
+            <img th:src="@{/img/escudo-beticos.png}"
+                 alt="Escudo de Béticos"
+                 class="home-crest">
+
+            <div>
+                <p class="home-kicker">Panel de administración</p>
+                <h1>Béticos</h1>
+                <p class="home-description">
+                    Intento de jugar al fuchibole
+                </p>
+            </div>
+
+        </div>
+
+        <div class="actions home-actions">
+
+            <a th:href="@{/admin/equipos}"
+               class="btn btn-primary">
+                Equipos
+            </a>
+
+            <a th:href="@{/admin/jugadores}"
+               class="btn btn-primary">
+                Jugadores
+            </a>
+
+            <a th:href="@{/admin/torneos}"
+               class="btn btn-primary">
+                Torneos
+            </a>
+
+        </div>
+
+        <span class="home-ball" aria-hidden="true">⚽</span>
+
+    </section>
+
+    <section class="card home-upcoming mt-20">
+
+        <h2>Próximamente</h2>
+
+        <ul class="home-feature-list">
+            <li>Gestionar fechas</li>
+            <li>Gestionar partidos</li>
+            <li>Cargar goles, amarillas y rojas</li>
+            <li>Ver tabla de posiciones</li>
+        </ul>
+
+    </section>
+
+</main>
 
 </body>
+
 </html>

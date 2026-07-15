@@ -1,82 +1,128 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Actualizar jugador</title>
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
 </head>
+
 <body>
 
-<h1>Actualizar jugador</h1>
+<div class="container">
 
-<h2>Datos actuales</h2>
+    <div class="card">
 
-<p>
-    <strong>ID:</strong>
-    <span th:text="${jugador.id}"></span>
-</p>
+        <h1>Actualizar jugador</h1>
 
-<p>
-    <strong>Nombre actual:</strong>
-    <span th:text="${jugador.nombreCompleto}"></span>
-</p>
+        <h2>Datos actuales</h2>
 
-<p>
-    <strong>Descripcion actual:</strong>
-    <span th:text="${jugador.descripcion}"></span>
-</p>
+        <p>
+            <strong>ID:</strong>
+            <span th:text="${jugador.id}"></span>
+        </p>
 
-<p>
-    <strong>Posicion actual:</strong>
-    <span th:text="${jugador.posicion}"></span>
-</p>
+        <p>
+            <strong>Nombre actual:</strong>
+            <span th:text="${jugador.nombreCompleto}"></span>
+        </p>
 
-<p>
-    <strong>Activo:</strong>
-    <span th:text="${jugador.activo}"></span>
-</p>
+        <p>
+            <strong>Descripción actual:</strong>
+            <span th:text="${jugador.descripcion}"></span>
+        </p>
 
-<hr>
+        <p>
+            <strong>Posición actual:</strong>
+            <span th:text="${jugador.posicion}"></span>
+        </p>
 
-<h2>Editar datos</h2>
+        <p>
+            <strong>Activo:</strong>
+            <span th:text="${jugador.activo}"></span>
+        </p>
 
-<form th:action="@{/admin/jugadores/{id}/editar(id=${jugador.id})}"
-      th:object="${jugador}"
-      method="post"
-      onsubmit="return confirm('¿Seguro que querés actualizar los datos de este jugador?');">
+    </div>
 
-    <label for="nombreCompleto">Nuevo nombre completo:</label>
-    <input type="text"
-           id="nombreCompleto"
-           th:field="*{nombreCompleto}"
-           required>
+    <div class="card mt-20">
 
-    <br><br>
+        <h2>Editar datos</h2>
 
-    <label for="descripcion">Nueva descripcion:</label>
-    <textarea id="descripcion"
-              th:field="*{descripcion}"></textarea>
+        <form th:action="@{/admin/jugadores/{id}/editar(id=${jugador.id})}"
+              th:object="${jugador}"
+              method="post"
+              onsubmit="return confirm('¿Seguro que querés actualizar los datos de este jugador?');">
 
-    <br><br>
+            <div class="form-group">
 
-    <label for="posicion">Nueva posicion:</label>
-    <select id="posicion"
-            th:field="*{posicion}"
-            required>
-        <option value="">Seleccionar posicion</option>
-        <option th:each="posicion : ${T(com.beticos.futbolapp.model.enums.PosicionJugador).values()}"
-                th:value="${posicion}"
-                th:text="${posicion}">
-        </option>
-    </select>
+                <label for="nombreCompleto">
+                    Nuevo nombre completo
+                </label>
 
-    <br><br>
+                <input
+                        id="nombreCompleto"
+                        type="text"
+                        th:field="*{nombreCompleto}"
+                        required>
 
-    <button type="submit">Guardar cambios</button>
-</form>
+            </div>
 
-<br>
+            <div class="form-group">
 
-<a href="/admin/jugadores">Volver al listado</a>
+                <label for="descripcion">
+                    Nueva descripción
+                </label>
+
+                <textarea
+                        id="descripcion"
+                        th:field="*{descripcion}"></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="posicion">
+                    Nueva posición
+                </label>
+
+                <select
+                        id="posicion"
+                        th:field="*{posicion}"
+                        required>
+                    <option value="">Seleccionar posición</option>
+                    <option th:each="posicion : ${T(com.beticos.futbolapp.model.enums.PosicionJugador).values()}"
+                            th:value="${posicion}"
+                            th:text="${posicion}">
+                    </option>
+                </select>
+
+            </div>
+
+            <div class="actions">
+
+                <button
+                        type="submit"
+                        class="btn btn-primary">
+                    Guardar cambios
+                </button>
+
+                <a th:href="@{/admin/jugadores}"
+                   class="btn btn-warning">
+                    Volver al listado
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 </body>
+
 </html>

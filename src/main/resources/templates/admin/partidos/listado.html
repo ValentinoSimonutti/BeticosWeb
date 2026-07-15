@@ -1,217 +1,199 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Partidos de la fecha</title>
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
 </head>
+
 <body>
 
-<h1>
-    Partidos - Fecha
-    <span th:text="${fecha.numero}"></span>
-</h1>
+<div class="container">
 
-<h3>
-    Torneo:
-    <span th:text="${fecha.torneo.nombre}"></span>
-</h3>
+    <div class="card">
 
+        <h1>
+            Partidos - Fecha
+            <span th:text="${fecha.numero}"></span>
+        </h1>
 
-
-<hr>
-
-<h2>Agregar partido</h2>
-
-<form th:action="@{/admin/fechas/{id}/partidos(id=${fecha.id})}"
-      method="post">
-
-    <div>
-
-        <label>Equipo local</label>
-
-        <select name="equipoLocalId" required>
-
-            <option value="">
-                Seleccione equipo
-            </option>
-
-            <option th:each="inscripcion : ${equiposTorneo}"
-                    th:value="${inscripcion.equipo.id}"
-                    th:text="${inscripcion.equipo.nombre}">
-            </option>
-
-        </select>
+        <p>
+            <strong>Torneo:</strong>
+            <span th:text="${fecha.torneo.nombre}"></span>
+        </p>
 
     </div>
 
-    <br>
+    <div class="card mt-20">
 
-    <div>
+        <h2>Agregar partido</h2>
 
-        <label>Equipo visitante</label>
+        <form th:action="@{/admin/fechas/{id}/partidos(id=${fecha.id})}"
+              method="post">
 
-        <select name="equipoVisitanteId" required>
+            <div class="form-group">
 
-            <option value="">
-                Seleccione equipo
-            </option>
+                <label for="equipoLocalId">
+                    Equipo local
+                </label>
 
-            <option th:each="inscripcion : ${equiposTorneo}"
-                    th:value="${inscripcion.equipo.id}"
-                    th:text="${inscripcion.equipo.nombre}">
-            </option>
+                <select
+                        id="equipoLocalId"
+                        name="equipoLocalId"
+                        required>
+                    <option value="">Seleccione equipo</option>
+                    <option th:each="inscripcion : ${equiposTorneo}"
+                            th:value="${inscripcion.equipo.id}"
+                            th:text="${inscripcion.equipo.nombre}">
+                    </option>
+                </select>
 
-        </select>
+            </div>
 
-    </div>
+            <div class="form-group">
 
-    <br>
+                <label for="equipoVisitanteId">
+                    Equipo visitante
+                </label>
 
-    <div>
+                <select
+                        id="equipoVisitanteId"
+                        name="equipoVisitanteId"
+                        required>
+                    <option value="">Seleccione equipo</option>
+                    <option th:each="inscripcion : ${equiposTorneo}"
+                            th:value="${inscripcion.equipo.id}"
+                            th:text="${inscripcion.equipo.nombre}">
+                    </option>
+                </select>
 
-        <label>Cancha</label>
+            </div>
 
-        <input type="number"
-               name="cancha"
-               required>
+            <div class="form-group">
 
-    </div>
+                <label for="cancha">
+                    Cancha
+                </label>
 
-    <br>
+                <input
+                        id="cancha"
+                        type="number"
+                        name="cancha"
+                        required>
 
-    <div>
+            </div>
 
-        <label>Goles local (opcional)</label>
+            <div class="form-group">
 
-        <input type="number"
-               name="golesLocal">
+                <label for="golesLocal">
+                    Goles local (opcional)
+                </label>
 
-    </div>
+                <input
+                        id="golesLocal"
+                        type="number"
+                        name="golesLocal">
 
-    <br>
+            </div>
 
-    <div>
+            <div class="form-group">
 
-        <label>Goles visitante (opcional)</label>
+                <label for="golesVisitante">
+                    Goles visitante (opcional)
+                </label>
 
-        <input type="number"
-               name="golesVisitante">
+                <input
+                        id="golesVisitante"
+                        type="number"
+                        name="golesVisitante">
 
-    </div>
+            </div>
 
-    <br>
+            <div class="actions">
 
-    <div>
-        <label>Eventos del Partido </label>
-        <select required>
-
-            <option value="">
-            </option>
-
-            <option>
-            </option>
-
-        </select>
-
-    </div>
-
-    <br>
-
-    <button type="submit">
-        Guardar partido
-    </button>
-
-</form>
-
-<hr>
-
-<h2>Partidos cargados</h2>
-
-<table border="1" cellpadding="8">
-
-    <thead>
-
-    <tr>
-
-        <th>Local</th>
-
-        <th>Resultado</th>
-
-        <th>Visitante</th>
-
-        <th>Cancha</th>
-
-        <th>Acciones</th>
-
-    </tr>
-
-    </thead>
-
-    <tbody>
-
-    <tr th:if="${#lists.isEmpty(partidos)}">
-
-        <td colspan="5">
-            No hay partidos cargados.
-        </td>
-
-    </tr>
-
-    <tr th:each="partido : ${partidos}">
-
-        <td th:text="${partido.equipoLocal.nombre}">
-        </td>
-
-        <td>
-
-            <span th:if="${partido.golesLocal != null and partido.golesVisitante != null}"
-                  th:text="${partido.golesLocal + ' - ' + partido.golesVisitante}">
-            </span>
-
-            <span th:unless="${partido.golesLocal != null and partido.golesVisitante != null}">
-                Pendiente
-            </span>
-
-        </td>
-
-        <td th:text="${partido.equipoVisitante.nombre}">
-        </td>
-
-        <td th:text="${partido.cancha}">
-        </td>
-
-        <td>
-
-            <a th:href="@{/admin/fechas/{fechaId}/partidos/{partidoId}/editar(
-            fechaId=${fecha.id},
-            partidoId=${partido.id})}">
-                Editar resultado
-            </a>
-
-            <br><br>
-
-            <form th:action="@{/admin/fechas/{fechaId}/partidos/{partidoId}/borrar(
-            fechaId=${fecha.id},
-            partidoId=${partido.id})}"
-                  method="post">
-
-                <button type="submit">
-                    Borrar
+                <button
+                        type="submit"
+                        class="btn btn-primary">
+                    Guardar partido
                 </button>
 
-            </form>
+            </div>
 
-        </td>
+        </form>
 
-    </tr>
+    </div>
 
-    </tbody>
+    <div class="card mt-20">
 
-</table>
+        <h2>Partidos cargados</h2>
 
-<a th:href="@{/admin/torneos/{id}/fechas(id=${fecha.torneo.id})}">
-    Volver a fechas
-</a>
+        <table>
+            <thead>
+            <tr>
+                <th>Local</th>
+                <th>Resultado</th>
+                <th>Visitante</th>
+                <th>Cancha</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:if="${#lists.isEmpty(partidos)}">
+                <td colspan="5" class="text-center">
+                    No hay partidos cargados.
+                </td>
+            </tr>
+
+            <tr th:each="partido : ${partidos}">
+                <td th:text="${partido.equipoLocal.nombre}"></td>
+                <td>
+                    <span th:if="${partido.golesLocal != null and partido.golesVisitante != null}"
+                          th:text="${partido.golesLocal + ' - ' + partido.golesVisitante}">
+                    </span>
+
+                    <span th:unless="${partido.golesLocal != null and partido.golesVisitante != null}">
+                        Pendiente
+                    </span>
+                </td>
+                <td th:text="${partido.equipoVisitante.nombre}"></td>
+                <td th:text="${partido.cancha}"></td>
+                <td class="actions">
+                    <a th:href="@{/admin/fechas/{fechaId}/partidos/{partidoId}/editar(fechaId=${fecha.id}, partidoId=${partido.id})}"
+                       class="btn btn-warning">
+                        Resultado
+                    </a>
+
+                    <form th:action="@{/admin/fechas/{fechaId}/partidos/{partidoId}/borrar(fechaId=${fecha.id}, partidoId=${partido.id})}"
+                          method="post"
+                          onsubmit="return confirm('Seguro que querés borrar este partido?');">
+                        <button
+                                type="submit"
+                                class="btn btn-danger">
+                            Borrar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="actions mt-20">
+            <a th:href="@{/admin/torneos/{id}/fechas(id=${fecha.torneo.id})}"
+               class="btn btn-warning">
+                Volver a fechas
+            </a>
+        </div>
+
+    </div>
+
+</div>
 
 </body>
+
 </html>

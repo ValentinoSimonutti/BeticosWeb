@@ -1,38 +1,86 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Nueva fecha</title>
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
 </head>
+
 <body>
 
-<h1>Crear fecha</h1>
+<div class="container">
 
-<p>
-    <strong>Torneo:</strong>
-    <span th:text="${torneo.nombre}"></span>
-</p>
+    <div class="card">
 
-<form th:action="@{/admin/torneos/{torneoId}/fechas(torneoId=${torneo.id})}"
-      th:object="${fecha}"
-      method="post">
+        <h1>Crear fecha</h1>
 
-    <label>Numero:</label>
-    <input type="number" th:field="*{numero}" min="1" required>
+        <p>
+            <strong>Torneo:</strong>
+            <span th:text="${torneo.nombre}"></span>
+        </p>
 
-    <br><br>
+    </div>
 
-    <label>Dia:</label>
-    <input type="date" th:field="*{dia}">
+    <div class="card mt-20">
 
-    <br><br>
+        <form th:action="@{/admin/torneos/{torneoId}/fechas(torneoId=${torneo.id})}"
+              th:object="${fecha}"
+              method="post">
 
-    <button type="submit">Guardar</button>
-</form>
+            <div class="form-group">
 
-<hr>
+                <label for="numero">
+                    Número
+                </label>
 
-<a th:href="@{/admin/torneos/{torneoId}/fechas(torneoId=${torneo.id})}">Volver al listado</a>
+                <input
+                        id="numero"
+                        type="number"
+                        th:field="*{numero}"
+                        min="1"
+                        required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="dia">
+                    Día
+                </label>
+
+                <input
+                        id="dia"
+                        type="date"
+                        th:field="*{dia}">
+
+            </div>
+
+            <div class="actions">
+
+                <button
+                        type="submit"
+                        class="btn btn-primary">
+                    Guardar
+                </button>
+
+                <a th:href="@{/admin/torneos/{torneoId}/fechas(torneoId=${torneo.id})}"
+                   class="btn btn-warning">
+                    Volver al listado
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 </body>
+
 </html>

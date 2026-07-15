@@ -1,56 +1,89 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Fechas</title>
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
 </head>
+
 <body>
 
-<h1>Fechas</h1>
+<div class="container">
 
-<p>
-    <strong>Torneo:</strong>
-    <span th:text="${torneo.nombre}"></span>
-</p>
+    <div class="card">
 
-<a th:href="@{/admin/torneos/{torneoId}/fechas/nueva(torneoId=${torneo.id})}">Crear nueva fecha</a>
+        <h1>Fechas</h1>
 
-<hr>
+        <p class="mb-20">
+            <strong>Torneo:</strong>
+            <span th:text="${torneo.nombre}"></span>
+        </p>
 
-<table border="1" cellpadding="8">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Numero</th>
-        <th>Dia</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="fecha : ${fechas}">
-        <td th:text="${fecha.id}"></td>
-        <td th:text="${fecha.numero}"></td>
-        <td th:text="${fecha.dia}"></td>
-        <td>
-            <a th:href="@{/admin/torneos/{torneoId}/fechas/{fechaId}/editar(torneoId=${torneo.id}, fechaId=${fecha.id})}">Editar</a>
+        <a th:href="@{/admin/torneos/{torneoId}/fechas/nueva(torneoId=${torneo.id})}"
+           class="btn btn-primary">
+            Crear nueva fecha
+        </a>
 
-            <a th:href="@{/admin/fechas/{id}/partidos(id=${fecha.id})}">
-                Partidos
+    </div>
+
+    <div class="card mt-20">
+
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Número</th>
+                <th>Día</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="fecha : ${fechas}">
+                <td th:text="${fecha.id}"></td>
+                <td th:text="${fecha.numero}"></td>
+                <td th:text="${fecha.dia}"></td>
+                <td class="actions">
+                    <a th:href="@{/admin/torneos/{torneoId}/fechas/{fechaId}/editar(torneoId=${torneo.id}, fechaId=${fecha.id})}"
+                       class="btn btn-warning">
+                        Editar
+                    </a>
+
+                    <a th:href="@{/admin/fechas/{id}/partidos(id=${fecha.id})}"
+                       class="btn btn-primary">
+                        Partidos
+                    </a>
+
+                    <form th:action="@{/admin/torneos/{torneoId}/fechas/{fechaId}/borrar(torneoId=${torneo.id}, fechaId=${fecha.id})}"
+                          method="post"
+                          onsubmit="return confirm('Seguro que querés borrar esta fecha?');">
+                        <button
+                                type="submit"
+                                class="btn btn-danger">
+                            Borrar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="actions mt-20">
+            <a th:href="@{/admin/torneos}"
+               class="btn btn-warning">
+                Volver a torneos
             </a>
+        </div>
 
-            <form th:action="@{/admin/torneos/{torneoId}/fechas/{fechaId}/borrar(torneoId=${torneo.id}, fechaId=${fecha.id})}"
-                  method="post"
-                  onsubmit="return confirm('Seguro que queres borrar esta fecha?');">
-                <button type="submit">Borrar</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+    </div>
 
-<hr>
-
-<a href="/admin/torneos">Volver a torneos</a>
+</div>
 
 </body>
+
 </html>

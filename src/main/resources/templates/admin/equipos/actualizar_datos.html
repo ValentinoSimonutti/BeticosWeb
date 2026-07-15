@@ -1,48 +1,82 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Actualizar equipo</title>
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
 </head>
+
 <body>
 
-<h1>Actualizar equipo</h1>
+<div class="container">
 
-<h2>Datos actuales</h2>
+    <div class="card">
 
-<p>
-    <strong>ID:</strong>
-    <span th:text="${equipo.id}"></span>
-</p>
+        <h1>Actualizar equipo</h1>
 
-<p>
-    <strong>Nombre actual:</strong>
-    <span th:text="${equipo.nombre}"></span>
-</p>
+        <h2>Datos actuales</h2>
 
-<hr>
+        <p>
+            <strong>ID:</strong>
+            <span th:text="${equipo.id}"></span>
+        </p>
 
-<h2>Editar datos</h2>
+        <p>
+            <strong>Nombre actual:</strong>
+            <span th:text="${equipo.nombre}"></span>
+        </p>
 
-<form th:action="@{/admin/equipos/{id}/editar(id=${equipo.id})}"
-      th:object="${equipo}"
-      method="post"
-      onsubmit="return confirm('¿Seguro que querés actualizar los datos de este equipo?');">
+    </div>
 
-    <label for="nombre">Nuevo nombre:</label>
-    <input type="text"
-           id="nombre"
-           th:field="*{nombre}"
-           required>
+    <div class="card mt-20">
 
-    <br><br>
+        <h2>Editar datos</h2>
 
-    <button type="submit">Guardar cambios</button>
-</form>
+        <form th:action="@{/admin/equipos/{id}/editar(id=${equipo.id})}"
+              th:object="${equipo}"
+              method="post"
+              onsubmit="return confirm('¿Seguro que querés actualizar los datos de este equipo?');">
 
-<br>
+            <div class="form-group">
 
-<a href="/admin/equipos">Volver al listado</a>
+                <label for="nombre">
+                    Nuevo nombre
+                </label>
+
+                <input
+                        id="nombre"
+                        type="text"
+                        th:field="*{nombre}"
+                        required>
+
+            </div>
+
+            <div class="actions">
+
+                <button
+                        type="submit"
+                        class="btn btn-primary">
+                    Guardar cambios
+                </button>
+
+                <a th:href="@{/admin/equipos}"
+                   class="btn btn-warning">
+                    Volver al listado
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 </body>
+
 </html>

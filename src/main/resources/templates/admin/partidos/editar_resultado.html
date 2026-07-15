@@ -1,68 +1,95 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Editar resultado</title>
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
 </head>
+
 <body>
 
-<h1>Editar resultado</h1>
+<div class="container">
 
-<h3>
-    <span th:text="${partido.equipoLocal.nombre}"></span>
-    vs
-    <span th:text="${partido.equipoVisitante.nombre}"></span>
-</h3>
+    <div class="card">
 
-<p>
-    Fecha:
-    <span th:text="${fecha.numero}"></span>
-</p>
+        <h1>Editar resultado</h1>
 
-<form th:action="@{/admin/fechas/{fechaId}/partidos/{partidoId}/editar(
-        fechaId=${fecha.id},
-        partidoId=${partido.id})}"
-      method="post">
+        <h2>
+            <span th:text="${partido.equipoLocal.nombre}"></span>
+            vs
+            <span th:text="${partido.equipoVisitante.nombre}"></span>
+        </h2>
 
-    <div>
-
-        <label>Goles local</label>
-
-        <input type="number"
-               min="0"
-               name="golesLocal"
-               th:value="${partido.golesLocal}"
-               required>
+        <p>
+            <strong>Fecha:</strong>
+            <span th:text="${fecha.numero}"></span>
+        </p>
 
     </div>
 
-    <br>
+    <div class="card mt-20">
 
-    <div>
+        <form th:action="@{/admin/fechas/{fechaId}/partidos/{partidoId}/editar(fechaId=${fecha.id}, partidoId=${partido.id})}"
+              method="post">
 
-        <label>Goles visitante</label>
+            <div class="form-group">
 
-        <input type="number"
-               min="0"
-               name="golesVisitante"
-               th:value="${partido.golesVisitante}"
-               required>
+                <label for="golesLocal">
+                    Goles local
+                </label>
+
+                <input
+                        id="golesLocal"
+                        type="number"
+                        min="0"
+                        name="golesLocal"
+                        th:value="${partido.golesLocal}"
+                        required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="golesVisitante">
+                    Goles visitante
+                </label>
+
+                <input
+                        id="golesVisitante"
+                        type="number"
+                        min="0"
+                        name="golesVisitante"
+                        th:value="${partido.golesVisitante}"
+                        required>
+
+            </div>
+
+            <div class="actions">
+
+                <button
+                        type="submit"
+                        class="btn btn-primary">
+                    Guardar resultado
+                </button>
+
+                <a th:href="@{/admin/fechas/{id}/partidos(id=${fecha.id})}"
+                   class="btn btn-warning">
+                    Volver a partidos
+                </a>
+
+            </div>
+
+        </form>
 
     </div>
 
-    <br>
-
-    <button type="submit">
-        Guardar resultado
-    </button>
-
-</form>
-
-<br>
-
-<a th:href="@{/admin/fechas/{id}/partidos(id=${fecha.id})}">
-    Volver a partidos
-</a>
+</div>
 
 </body>
+
 </html>

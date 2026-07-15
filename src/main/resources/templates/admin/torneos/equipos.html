@@ -1,114 +1,132 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Equipos del torneo</title>
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
 </head>
+
 <body>
 
-<h1>
-    Administración de equipos -
-    <span th:text="${torneo.nombre}"></span>
-</h1>
+<div class="container">
 
+    <div class="card">
 
-<hr>
+        <h1>
+            Administración de equipos -
+            <span th:text="${torneo.nombre}"></span>
+        </h1>
 
-<h2>Agregar equipo al torneo</h2>
+    </div>
 
-<form th:action="@{/admin/torneos/{id}/equipos(id=${torneo.id})}"
-      method="post">
+    <div class="card mt-20">
 
-    <select name="equipoId" required>
+        <h2>Agregar equipo al torneo</h2>
 
-        <option value="">
-            Seleccione un equipo
-        </option>
+        <form th:action="@{/admin/torneos/{id}/equipos(id=${torneo.id})}"
+              method="post">
 
-        <option th:each="equipo : ${equiposDisponibles}"
-                th:value="${equipo.id}"
-                th:text="${equipo.nombre}">
-        </option>
+            <div class="form-group">
 
-    </select>
+                <label for="equipoId">
+                    Equipo
+                </label>
 
-    <button type="submit">
-        Agregar
-    </button>
+                <select
+                        id="equipoId"
+                        name="equipoId"
+                        required>
+                    <option value="">Seleccione un equipo</option>
+                    <option th:each="equipo : ${equiposDisponibles}"
+                            th:value="${equipo.id}"
+                            th:text="${equipo.nombre}">
+                    </option>
+                </select>
 
-</form>
+            </div>
 
-<hr>
+            <div class="actions">
 
-<h2>Equipos inscriptos</h2>
-
-<table border="1" cellpadding="8">
-    <thead>
-    <tr>
-        <th>Equipo</th>
-        <th>Puntos</th>
-        <th>PJ</th>
-        <th>PG</th>
-        <th>PE</th>
-        <th>PP</th>
-        <th>GF</th>
-        <th>GC</th>
-        <th>DG</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-
-    <tbody>
-
-    <tr th:if="${#lists.isEmpty(equiposInscriptos)}">
-        <td colspan="10">
-            No hay equipos inscriptos.
-        </td>
-    </tr>
-
-    <tr th:each="inscripcion : ${equiposInscriptos}">
-
-        <td th:text="${inscripcion.equipo.nombre}"></td>
-
-        <td th:text="${inscripcion.puntos}"></td>
-
-        <td th:text="${inscripcion.partidosJugados}"></td>
-
-        <td th:text="${inscripcion.partidosGanados}"></td>
-
-        <td th:text="${inscripcion.partidosEmpatados}"></td>
-
-        <td th:text="${inscripcion.partidosPerdidos}"></td>
-
-        <td th:text="${inscripcion.golesFavor}"></td>
-
-        <td th:text="${inscripcion.golesContra}"></td>
-
-        <td th:text="${inscripcion.diferenciaGol}"></td>
-
-        <td>
-
-            <form th:action="@{/admin/torneos/{torneoId}/equipos/{equipoId}/borrar(
-                    torneoId=${torneo.id},
-                    equipoId=${inscripcion.equipo.id})}"
-                  method="post"
-                  onsubmit="return confirm('¿Quitar equipo del torneo?');">
-
-                <button type="submit">
-                    Quitar
+                <button
+                        type="submit"
+                        class="btn btn-primary">
+                    Agregar
                 </button>
 
-            </form>
+            </div>
 
-        </td>
+        </form>
 
-    </tr>
+    </div>
 
-    </tbody>
+    <div class="card mt-20">
 
-</table>
+        <h2>Equipos inscriptos</h2>
 
-<a href="/admin/torneos">Volver a torneos</a>
+        <table>
+            <thead>
+            <tr>
+                <th>Equipo</th>
+                <th>Puntos</th>
+                <th>PJ</th>
+                <th>PG</th>
+                <th>PE</th>
+                <th>PP</th>
+                <th>GF</th>
+                <th>GC</th>
+                <th>DG</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:if="${#lists.isEmpty(equiposInscriptos)}">
+                <td colspan="10" class="text-center">
+                    No hay equipos inscriptos.
+                </td>
+            </tr>
+
+            <tr th:each="inscripcion : ${equiposInscriptos}">
+                <td th:text="${inscripcion.equipo.nombre}"></td>
+                <td th:text="${inscripcion.puntos}"></td>
+                <td th:text="${inscripcion.partidosJugados}"></td>
+                <td th:text="${inscripcion.partidosGanados}"></td>
+                <td th:text="${inscripcion.partidosEmpatados}"></td>
+                <td th:text="${inscripcion.partidosPerdidos}"></td>
+                <td th:text="${inscripcion.golesFavor}"></td>
+                <td th:text="${inscripcion.golesContra}"></td>
+                <td th:text="${inscripcion.diferenciaGol}"></td>
+                <td class="actions">
+                    <form th:action="@{/admin/torneos/{torneoId}/equipos/{equipoId}/borrar(torneoId=${torneo.id}, equipoId=${inscripcion.equipo.id})}"
+                          method="post"
+                          onsubmit="return confirm('¿Quitar equipo del torneo?');">
+                        <button
+                                type="submit"
+                                class="btn btn-danger">
+                            Quitar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="actions mt-20">
+            <a th:href="@{/admin/torneos}"
+               class="btn btn-warning">
+                Volver a torneos
+            </a>
+        </div>
+
+    </div>
+
+</div>
 
 </body>
+
 </html>

@@ -1,0 +1,206 @@
+/* ==========================================================
+   HOME ADMIN
+   Pantalla principal del panel.
+   ========================================================== */
+
+.admin-home{
+
+    max-width:1050px;
+
+}
+
+.home-hero{
+
+    position:relative;
+
+    overflow:hidden;
+
+    min-height:280px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    gap:28px;
+
+    padding:34px;
+
+    border:1px solid rgba(25,135,84,.15);
+
+    background:
+            linear-gradient(185deg, rgba(25,135,84,.14), rgba(255,255,255,0) 55%),
+            var(--color-card);
+
+}
+
+.home-brand{
+
+    position:relative;
+
+    z-index:1;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:22px;
+
+}
+
+.home-crest{
+
+    width:112px;
+
+    height:112px;
+
+    object-fit:cover;
+
+    border-radius:14px;
+
+    box-shadow:0 10px 24px rgba(0,0,0,.18);
+
+}
+
+.home-kicker{
+
+    margin-bottom:4px;
+
+    color:var(--color-primary);
+
+    font-size:14px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+}
+
+.home-description{
+
+    max-width:520px;
+
+    font-size:17px;
+
+    color:#4a5568;
+
+}
+
+.home-actions{
+
+    position:relative;
+
+    z-index:1;
+
+    flex-wrap:wrap;
+
+}
+
+.home-ball{
+
+    position:absolute;
+
+    right:42px;
+
+    bottom:22px;
+
+    font-size:92px;
+
+    line-height:1;
+
+    opacity:.14;
+
+    transform:rotate(-14deg);
+
+}
+
+.home-upcoming{
+
+    border-left:6px solid var(--color-primary);
+
+}
+
+.card .home-feature-list{
+
+    padding-left:0;
+
+    list-style:none;
+
+}
+
+.home-feature-list{
+
+    display:grid;
+
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+
+    gap:12px 28px;
+
+}
+
+.home-feature-list li{
+
+    margin-bottom:0;
+
+    padding:10px 0;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.home-feature-list li::before{
+
+    content:"";
+
+    width:8px;
+
+    height:8px;
+
+    flex:0 0 auto;
+
+    border-radius:50%;
+
+    background:var(--color-primary);
+
+}
+
+@media (max-width:700px){
+
+    .home-brand{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+    }
+
+    .home-crest{
+
+        width:92px;
+
+        height:92px;
+
+    }
+
+    .home-feature-list{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .home-ball{
+
+        right:18px;
+
+        bottom:18px;
+
+        font-size:70px;
+
+    }
+
+}

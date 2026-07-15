@@ -1,47 +1,108 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Nuevo torneo</title>
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
 </head>
+
 <body>
 
-<h1>Crear torneo</h1>
+<div class="container">
 
-<form th:action="@{/admin/torneos}" th:object="${torneo}" method="post">
+    <div class="card">
 
-    <label>Nombre:</label>
-    <input type="text" th:field="*{nombre}" required>
+        <h1>Crear torneo</h1>
 
-    <br><br>
+        <form th:action="@{/admin/torneos}"
+              th:object="${torneo}"
+              method="post">
 
-    <label>Fecha inicio:</label>
-    <input type="date" th:field="*{fechaInicio}">
+            <div class="form-group">
 
-    <br><br>
+                <label for="nombre">
+                    Nombre
+                </label>
 
-    <label>Fecha fin:</label>
-    <input type="date" th:field="*{fechaFin}">
+                <input
+                        id="nombre"
+                        type="text"
+                        th:field="*{nombre}"
+                        required>
 
-    <br><br>
+            </div>
 
-    <label>Estado:</label>
-    <select th:field="*{estado}" required>
-        <option value="">Seleccionar estado</option>
-        <option th:each="estado : ${estados}"
-                th:value="${estado}"
-                th:text="${estado}">
-        </option>
-    </select>
+            <div class="form-group">
 
-    <br><br>
+                <label for="fechaInicio">
+                    Fecha inicio
+                </label>
 
-    <button type="submit">Guardar</button>
-</form>
+                <input
+                        id="fechaInicio"
+                        type="date"
+                        th:field="*{fechaInicio}">
 
-<hr>
+            </div>
 
-<a href="/admin/torneos">Volver al listado</a>
+            <div class="form-group">
+
+                <label for="fechaFin">
+                    Fecha fin
+                </label>
+
+                <input
+                        id="fechaFin"
+                        type="date"
+                        th:field="*{fechaFin}">
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="estado">
+                    Estado
+                </label>
+
+                <select
+                        id="estado"
+                        th:field="*{estado}"
+                        required>
+                    <option value="">Seleccionar estado</option>
+                    <option th:each="estado : ${estados}"
+                            th:value="${estado}"
+                            th:text="${estado}">
+                    </option>
+                </select>
+
+            </div>
+
+            <div class="actions">
+
+                <button
+                        type="submit"
+                        class="btn btn-primary">
+                    Guardar
+                </button>
+
+                <a th:href="@{/admin/torneos}"
+                   class="btn btn-warning">
+                    Volver al listado
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 </body>
+
 </html>

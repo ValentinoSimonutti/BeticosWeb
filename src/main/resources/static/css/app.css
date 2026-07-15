@@ -25,7 +25,10 @@
     --color-primary-dark:#146c43;
 
     --color-warning:#f59e0b;
+    --color-warning-dark:#d97706;
+
     --color-danger:#dc3545;
+    --color-danger-dark:#a81500;
 
     --color-background:#f5f7fa;
     --color-card:#ffffff;
@@ -113,6 +116,18 @@ h2{
 
 }
 
+.card ul{
+
+    padding-left:20px;
+
+}
+
+.card li{
+
+    margin-bottom:8px;
+
+}
+
 
 /* ==========================================================
    FORMULARIOS
@@ -146,6 +161,8 @@ textarea{
 
     border-radius:6px;
 
+    font-family:inherit;
+
     font-size:15px;
 
     transition:.2s;
@@ -172,35 +189,38 @@ textarea:focus{
    ========================================================== */
 
 .btn{
-
-    width:150px;
-
-    height:45px;
-
-    display:flex;
-    
+    /* Layout */
+    display:inline-flex;
     justify-content:center;
-
     align-items:center;
 
-    padding:10px 18px;
+    /* Tamaño */
+    width:180px;
+    height:50px;
 
+    /* Espaciado */
+    padding:0;
+
+    /* Borde */
     border:none;
+    border-radius:10px;
 
-    border-radius:8px;
-
-    color:white;
-
-    font-size:15px;
-
+    /* Texto */
+    font-family:inherit;
+    font-size:16px;
     font-weight:600;
+    line-height:1;
 
+    /* Apariencia */
+    text-decoration:none;
+    color:white;
+    background:none;
+
+    /* Cursor */
     cursor:pointer;
 
-    text-decoration:none;
-
-    transition:.25s;
-
+    /* Animación */
+    transition:.2s ease;
 }
 
 
@@ -224,6 +244,11 @@ textarea:focus{
 .btn-warning{
 
     background:var(--color-warning);
+
+}
+.btn-warning:hover{
+
+    background:var(--color-warning-dark);
 
 }
 
@@ -303,6 +328,18 @@ tr:hover{
 .actions form{
 
     margin:0;
+
+}
+
+td.actions .btn{
+
+    width:90px;
+
+    height:38px;
+
+    border-radius:8px;
+
+    font-size:14px;
 
 }
 

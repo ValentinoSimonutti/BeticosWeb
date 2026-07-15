@@ -1,49 +1,83 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Jugadores</title>
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
 </head>
+
 <body>
 
-<h1>Jugadores</h1>
-
-<a href="/admin/jugadores/nuevo">Crear nuevo jugador</a>
-
-<hr>
-
-<table border="1" cellpadding="8">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Nombre completo</th>
-        <th>Descripcion</th>
-        <th>Posicion</th>
-        <th>Equipo</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="jugador : ${jugadores}">
-        <td th:text="${jugador.id}"></td>
-        <td th:text="${jugador.nombreCompleto}"></td>
-        <td th:text="${jugador.descripcion}"></td>
-        <td th:text="${jugador.posicion}"></td>
-        <td th:text="${jugador.equipo.nombre}"></td>
-        <td>
-            <a th:href="@{/admin/jugadores/{id}/editar(id=${jugador.id})}">Editar</a>
-            <form th:action="@{/admin/jugadores/{id}/borrar(id=${jugador.id})}" method="post"
-                  onsubmit="return confirm('¿Seguro que querés borrar este jugador?');">
-                <button type="submit">Borrar</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
 <div class="container">
-    <a href="/admin/home" style="text-align:center;" > Volver al Inicio </a>
+
+    <div class="card">
+
+        <h1>Jugadores</h1>
+
+        <a th:href="@{/admin/jugadores/nuevo}"
+           class="btn btn-primary">
+            Crear nuevo jugador
+        </a>
+
+    </div>
+
+    <div class="card mt-20">
+
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre completo</th>
+                <th>Descripción</th>
+                <th>Posición</th>
+                <th>Equipo</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="jugador : ${jugadores}">
+                <td th:text="${jugador.id}"></td>
+                <td th:text="${jugador.nombreCompleto}"></td>
+                <td th:text="${jugador.descripcion}"></td>
+                <td th:text="${jugador.posicion}"></td>
+                <td th:text="${jugador.equipo.nombre}"></td>
+                <td class="actions">
+                    <a th:href="@{/admin/jugadores/{id}/editar(id=${jugador.id})}"
+                       class="btn btn-warning">
+                        Editar
+                    </a>
+
+                    <form th:action="@{/admin/jugadores/{id}/borrar(id=${jugador.id})}"
+                          method="post"
+                          onsubmit="return confirm('¿Seguro que querés borrar este jugador?');">
+                        <button
+                                type="submit"
+                                class="btn btn-danger">
+                            Borrar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="actions mt-20">
+            <a th:href="@{/admin/home}"
+               class="btn btn-warning">
+                Volver al inicio
+            </a>
+        </div>
+
+    </div>
+
 </div>
 
 </body>
+
 </html>

@@ -1,23 +1,68 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Nuevo equipo</title>
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
 </head>
+
 <body>
 
-<h1>Crear equipo</h1>
+<div class="container">
 
-<form th:action="@{/admin/equipos}" th:object="${equipo}" method="post">
-    <label>Nombre:</label>
-    <input type="text" th:field="*{nombre}" required>
+    <div class="card">
 
-    <button type="submit">Guardar</button>
-</form>
+        <h1>Crear equipo</h1>
 
-<hr>
+        <form th:action="@{/admin/equipos}"
+              th:object="${equipo}"
+              method="post">
 
-<a href="/admin/equipos">Volver al listado</a>
+            <div class="form-group">
+
+                <label for="nombre">
+                    Nombre del equipo
+                </label>
+
+                <input
+                        id="nombre"
+                        type="text"
+                        th:field="*{nombre}"
+                        required>
+
+            </div>
+
+            <div class="actions">
+
+                <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                    Guardar
+
+                </button>
+
+                <a
+                        href="/admin/equipos"
+                        class="btn btn-warning">
+
+                    Cancelar
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 </body>
+
 </html>

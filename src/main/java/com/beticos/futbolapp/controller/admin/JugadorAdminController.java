@@ -1,19 +1,26 @@
 package com.beticos.futbolapp.controller.admin;
 
+import com.beticos.futbolapp.model.Equipo;
 import com.beticos.futbolapp.model.Jugador;
+import com.beticos.futbolapp.repository.EquipoRepository;
+import com.beticos.futbolapp.service.EquipoService;
 import com.beticos.futbolapp.service.JugadorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/jugadores")
 public class JugadorAdminController {
 
     private final JugadorService jugadorService;
+    private final EquipoService equipoService;
 
-    public JugadorAdminController(JugadorService jugadorService) {
+    public JugadorAdminController(JugadorService jugadorService, EquipoService equipoService) {
         this.jugadorService = jugadorService;
+        this.equipoService = equipoService;
     }
 
     @GetMapping
@@ -24,13 +31,26 @@ public class JugadorAdminController {
 
     @GetMapping("/nuevo")
     public String nuevo (Model model){
+        List<Equipo> equipos = equipoService.listarEquipos();
         model.addAttribute("jugador", new Jugador());
+        model.addAttribute("equipos", equipos);
         return "admin/jugadores/formulario";
     }
 
     @PostMapping
-    public String guardar (@ModelAttribute Jugador jugador){
-        jugadorService.crearJugador(jugador.getNombreCompleto(), jugador.getDescripcion(), jugador.getPosicion());
+    public String guardar(
+            @ModelAttribute Jugador jugador,
+            @RequestParam Long equipoId) {
+
+        Equipo equipo = equipoService.buscarEquipoPorId(equipoId);
+
+        jugadorService.crearJugador(
+                jugador.getNombreCompleto(),
+                jugador.getDescripcion(),
+                jugador.getPosicion(),
+                equipo
+        );
+
         return "redirect:/admin/jugadores";
     }
 

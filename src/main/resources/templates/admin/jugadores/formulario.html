@@ -30,6 +30,19 @@
 
     <br><br>
 
+    <label>Equipo:</label>
+    <select name="equipoId" required>
+        <option value="">Seleccionar equipo</option>
+
+        <option th:each="equipo : ${equipos}"
+                th:value="${equipo.id}"
+                th:text="${equipo.nombre}">
+        </option>
+
+    </select>
+
+    <br><br>
+
     <button type="submit">Guardar</button>
 </form>
 

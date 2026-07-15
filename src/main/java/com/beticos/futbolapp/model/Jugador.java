@@ -42,7 +42,7 @@ public class Jugador {
         this.descripcion = descripcion;
         this.posicion = posicion;
         this.activo = true;
-        this.equipo = null;
+        this.equipo = equipo;
     }
 
     public Long getId() {
@@ -87,6 +87,13 @@ public class Jugador {
 
     public void setEliminado(boolean eliminado) {
         this.eliminado = eliminado;
+    }
+
+    public Equipo getEquipo() {
+        return equipo;
+    }
+    public void setEquipo(Equipo equipo) {
+        this.equipo = equipo;
     }
 
 }

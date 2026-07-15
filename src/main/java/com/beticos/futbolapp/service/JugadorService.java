@@ -1,6 +1,7 @@
 package com.beticos.futbolapp.service;
 
 import com.beticos.futbolapp.exception.ResourceNotFoundException;
+import com.beticos.futbolapp.model.Equipo;
 import com.beticos.futbolapp.model.Jugador;
 import com.beticos.futbolapp.model.enums.PosicionJugador;
 import com.beticos.futbolapp.repository.JugadorRepository;
@@ -12,7 +13,6 @@ import java.util.List;
 
 @Service
 public class JugadorService {
-
 
     private JugadorRepository jugadorRepository;
 
@@ -26,8 +26,8 @@ public class JugadorService {
     }
 
     @Transactional
-    public Jugador crearJugador(String nombre, String descripcion, PosicionJugador posicion) {
-        Jugador jugador = new Jugador(nombre, descripcion, posicion);
+    public Jugador crearJugador(String nombre, String descripcion, PosicionJugador posicion, Equipo equipo) {
+        Jugador jugador = new Jugador(nombre, descripcion, posicion, equipo);
         return jugadorRepository.save(jugador);
     }
 

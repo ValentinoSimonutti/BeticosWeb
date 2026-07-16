@@ -7,6 +7,7 @@ import com.beticos.futbolapp.model.Fecha;
 import com.beticos.futbolapp.model.Partido;
 import com.beticos.futbolapp.model.Torneo;
 import com.beticos.futbolapp.repository.EquipoTorneoRepository;
+import com.beticos.futbolapp.repository.EventoPartidoRepository;
 import com.beticos.futbolapp.repository.PartidoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,17 +21,20 @@ public class PartidoService {
     private final FechaService fechaService;
     private final EquipoService equipoService;
     private final EquipoTorneoRepository equipoTorneoRepository;
+    private final EventoPartidoRepository eventoPartidoRepository;
 
     public PartidoService(
             PartidoRepository partidoRepository,
             FechaService fechaService,
             EquipoService equipoService,
-            EquipoTorneoRepository equipoTorneoRepository) {
+            EquipoTorneoRepository equipoTorneoRepository,
+            EventoPartidoRepository eventoPartidoRepository) {
 
         this.partidoRepository = partidoRepository;
         this.fechaService = fechaService;
         this.equipoService = equipoService;
         this.equipoTorneoRepository = equipoTorneoRepository;
+        this.eventoPartidoRepository = eventoPartidoRepository;
     }
 
     @Transactional
@@ -151,11 +155,9 @@ public class PartidoService {
     @Transactional
     public void borrarPartido(Long partidoId) {
 
-        if (!partidoRepository.existsById(partidoId)) {
-            throw new ResourceNotFoundException(
-                    "Partido no encontrado");
-        }
+        Partido partido = buscarPartidoPorId(partidoId);
 
-        partidoRepository.deleteById(partidoId);
+        eventoPartidoRepository.deleteByPartido(partido);
+        partidoRepository.delete(partido);
     }
 }

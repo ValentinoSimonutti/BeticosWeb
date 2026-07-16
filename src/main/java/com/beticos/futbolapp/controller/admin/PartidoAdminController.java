@@ -1,12 +1,17 @@
 package com.beticos.futbolapp.controller.admin;
 
 import com.beticos.futbolapp.model.Partido;
+import com.beticos.futbolapp.model.enums.TipoEventoPartido;
 import com.beticos.futbolapp.service.EquipoTorneoService;
+import com.beticos.futbolapp.service.EventoPartidoService;
 import com.beticos.futbolapp.service.FechaService;
+import com.beticos.futbolapp.service.JugadorService;
 import com.beticos.futbolapp.service.PartidoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/fechas")
@@ -15,15 +20,21 @@ public class PartidoAdminController {
     private final PartidoService partidoService;
     private final FechaService fechaService;
     private final EquipoTorneoService equipoTorneoService;
+    private final JugadorService jugadorService;
+    private final EventoPartidoService eventoPartidoService;
 
     public PartidoAdminController(
             PartidoService partidoService,
             FechaService fechaService,
-            EquipoTorneoService equipoTorneoService) {
+            EquipoTorneoService equipoTorneoService,
+            JugadorService jugadorService,
+            EventoPartidoService eventoPartidoService) {
 
         this.partidoService = partidoService;
         this.fechaService = fechaService;
         this.equipoTorneoService = equipoTorneoService;
+        this.jugadorService = jugadorService;
+        this.eventoPartidoService = eventoPartidoService;
     }
 
     @GetMapping("/{fechaId}/partidos")
@@ -46,6 +57,8 @@ public class PartidoAdminController {
                 equipoTorneoService.listarEquiposDeTorneo(
                         fecha.getTorneo().getId()));
 
+        agregarDatosEventosAlModelo(model);
+
         return "admin/partidos/listado";
     }
 
@@ -63,7 +76,17 @@ public class PartidoAdminController {
             Integer golesLocal,
 
             @RequestParam(required = false)
-            Integer golesVisitante) {
+            Integer golesVisitante,
+
+            @RequestParam(
+                    required = false,
+                    name = "eventoJugadorId")
+            List<String> eventoJugadorIds,
+
+            @RequestParam(
+                    required = false,
+                    name = "eventoTipo")
+            List<String> eventoTipos) {
 
         Partido partido =
                 partidoService.crearPartido(
@@ -80,6 +103,11 @@ public class PartidoAdminController {
                     golesLocal,
                     golesVisitante);
         }
+
+        eventoPartidoService.reemplazarEventosDePartido(
+                partido.getId(),
+                eventoJugadorIds,
+                eventoTipos);
 
         return "redirect:/admin/fechas/" +
                 fechaId +
@@ -106,9 +134,17 @@ public class PartidoAdminController {
                 "fecha",
                 fechaService.buscarFechaPorId(fechaId));
 
+        Partido partido = partidoService.buscarPartidoPorId(partidoId);
+
         model.addAttribute(
                 "partido",
-                partidoService.buscarPartidoPorId(partidoId));
+                partido);
+
+        model.addAttribute(
+                "eventosPartido",
+                eventoPartidoService.findAllEventoPartido(partido));
+
+        agregarDatosEventosAlModelo(model);
 
         return "admin/partidos/editar_resultado";
     }
@@ -118,16 +154,41 @@ public class PartidoAdminController {
             @PathVariable Long fechaId,
             @PathVariable Long partidoId,
             @RequestParam Integer golesLocal,
-            @RequestParam Integer golesVisitante) {
+            @RequestParam Integer golesVisitante,
+
+            @RequestParam(
+                    required = false,
+                    name = "eventoJugadorId")
+            List<String> eventoJugadorIds,
+
+            @RequestParam(
+                    required = false,
+                    name = "eventoTipo")
+            List<String> eventoTipos) {
 
         partidoService.cargarResultado(
                 partidoId,
                 golesLocal,
                 golesVisitante);
 
+        eventoPartidoService.reemplazarEventosDePartido(
+                partidoId,
+                eventoJugadorIds,
+                eventoTipos);
+
         return "redirect:/admin/fechas/" + fechaId + "/partidos";
     }
 
+    private void agregarDatosEventosAlModelo(Model model) {
+
+        model.addAttribute(
+                "jugadores",
+                jugadorService.listarJugadores());
+
+        model.addAttribute(
+                "tiposEvento",
+                TipoEventoPartido.values());
+    }
 
 
 }

@@ -23,4 +23,6 @@ public interface PartidoRepository extends JpaRepository<Partido, Long> {
     boolean existsByFechaAndEquipoVisitante(
             Fecha fecha,
             Equipo equipo);
+
+    boolean existsById(Long id);
 }

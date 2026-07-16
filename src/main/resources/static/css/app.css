@@ -26,6 +26,9 @@
     --color-secondary:#6c757d;
     --color-secondary-dark:#565e64;
 
+    --color-info:#0d6efd;
+    --color-info-dark:#0b5ed7;
+
     --color-warning:#f59e0b;
     --color-warning-dark:#d97706;
 
@@ -262,6 +265,20 @@ textarea:focus{
 
 }
 
+/* Botón azul */
+
+.btn-info{
+
+    background:var(--color-info);
+
+}
+
+.btn-info:hover{
+
+    background:var(--color-info-dark);
+
+}
+
 
 /* Botón amarillo */
 
@@ -307,6 +324,14 @@ textarea:focus{
 .btn:focus-visible{
 
     outline:2px solid rgba(25,135,84,.25);
+
+}
+
+.btn-small{
+
+    width:130px;
+    height:38px;
+    font-size:14px;
 
 }
 

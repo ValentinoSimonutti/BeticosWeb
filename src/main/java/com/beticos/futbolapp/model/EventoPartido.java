@@ -22,11 +22,37 @@ public class EventoPartido {
     public EventoPartido() {
     }
 
-    public EventoPartido(Partido partido, Jugador jugador, TipoEventoPartido tipo, Integer cantidad) {
+    public EventoPartido(Partido partido, Jugador jugador, TipoEventoPartido tipo) {
         this.partido = partido;
         this.jugador = jugador;
         this.tipo = tipo;
     }
 
-    // getters y setters
+    public Long getId() {
+        return id;
+    }
+
+    public Partido getPartido() {
+        return partido;
+    }
+
+    public void setPartido(Partido partido) {
+        this.partido = partido;
+    }
+
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    public void setJugador(Jugador jugador) {
+        this.jugador = jugador;
+    }
+
+    public TipoEventoPartido getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoEventoPartido tipo) {
+        this.tipo = tipo;
+    }
 }

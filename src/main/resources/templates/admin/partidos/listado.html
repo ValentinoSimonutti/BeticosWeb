@@ -114,7 +114,84 @@
 
             </div>
 
-            <div class="actions">
+            <h2>Eventos del partido</h2>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Jugador</th>
+                    <th>Evento</th>
+                </tr>
+                </thead>
+
+                <tbody id="eventos-partido">
+                <tr>
+                    <td>
+                        <select name="eventoJugadorId">
+                            <option value="">Sin evento</option>
+                            <option th:each="jugador : ${jugadores}"
+                                    th:value="${jugador.id}"
+                                    th:text="${jugador.nombreCompleto}">
+                            </option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select name="eventoTipo">
+                            <option value="">Sin evento</option>
+                            <option th:each="tipoEvento : ${tiposEvento}"
+                                    th:value="${tipoEvento}"
+                                    th:text="${tipoEvento}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <template id="evento-template">
+                <tr>
+                    <td>
+                        <select name="eventoJugadorId">
+                            <option value="">Sin evento</option>
+                            <option th:each="jugador : ${jugadores}"
+                                    th:value="${jugador.id}"
+                                    th:text="${jugador.nombreCompleto}">
+                            </option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select name="eventoTipo">
+                            <option value="">Sin evento</option>
+                            <option th:each="tipoEvento : ${tiposEvento}"
+                                    th:value="${tipoEvento}"
+                                    th:text="${tipoEvento}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+            </template>
+
+            <div class="actions mt-20">
+
+                <button
+                        type="button"
+                        class="btn btn-info btn-small"
+                        onclick="agregarEvento()">
+                    Agregar evento
+                </button>
+
+                <button
+                        type="button"
+                        class="btn btn-danger btn-small"
+                        onclick="eliminarEvento()">
+                    Eliminar evento
+                </button>
+
+            </div>
+
+            <div class="actions mt-20">
 
                 <button
                         type="submit"
@@ -185,7 +262,7 @@
 
         <div class="actions mt-20">
             <a th:href="@{/admin/torneos/{id}/fechas(id=${fecha.torneo.id})}"
-               class="btn btn-warning">
+               class="btn btn-secondary">
                 Volver a fechas
             </a>
         </div>
@@ -193,6 +270,29 @@
     </div>
 
 </div>
+
+<script>
+    function agregarEvento() {
+        const template = document.getElementById('evento-template');
+        const tabla = document.getElementById('eventos-partido');
+
+        tabla.appendChild(template.content.cloneNode(true));
+    }
+
+    function eliminarEvento() {
+        const tabla = document.getElementById('eventos-partido');
+        const filas = tabla.querySelectorAll('tr');
+
+        if (filas.length > 1) {
+            filas[filas.length - 1].remove();
+            return;
+        }
+
+        filas[0].querySelectorAll('select').forEach(select => {
+            select.value = '';
+        });
+    }
+</script>
 
 </body>
 

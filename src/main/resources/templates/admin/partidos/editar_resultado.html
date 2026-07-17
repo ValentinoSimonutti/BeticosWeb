@@ -49,6 +49,7 @@
                         min="0"
                         name="golesLocal"
                         th:value="${partido.golesLocal}"
+                        th:readonly="${partido.golesLocal != null and partido.golesVisitante != null}"
                         required>
 
             </div>
@@ -65,6 +66,7 @@
                         min="0"
                         name="golesVisitante"
                         th:value="${partido.golesVisitante}"
+                        th:readonly="${partido.golesLocal != null and partido.golesVisitante != null}"
                         required>
 
             </div>

@@ -2,10 +2,7 @@ package com.beticos.futbolapp.service;
 
 import com.beticos.futbolapp.exception.BadRequestException;
 import com.beticos.futbolapp.exception.ResourceNotFoundException;
-import com.beticos.futbolapp.model.Equipo;
-import com.beticos.futbolapp.model.Fecha;
-import com.beticos.futbolapp.model.Partido;
-import com.beticos.futbolapp.model.Torneo;
+import com.beticos.futbolapp.model.*;
 import com.beticos.futbolapp.repository.EquipoTorneoRepository;
 import com.beticos.futbolapp.repository.EventoPartidoRepository;
 import com.beticos.futbolapp.repository.PartidoRepository;
@@ -134,10 +131,7 @@ public class PartidoService {
     }
 
     @Transactional
-    public Partido cargarResultado(
-            Long partidoId,
-            Integer golesLocal,
-            Integer golesVisitante) {
+    public Partido cargarResultado(Long partidoId, Integer golesLocal, Integer golesVisitante) {
 
         if (golesLocal < 0 || golesVisitante < 0) {
             throw new BadRequestException(
@@ -146,8 +140,24 @@ public class PartidoService {
 
         Partido partido = buscarPartidoPorId(partidoId);
 
+        if (partido.getGolesLocal() != null || partido.getGolesVisitante() != null) {
+            throw new BadRequestException("El resultado ya fue cargado");
+        }
+
         partido.setGolesLocal(golesLocal);
         partido.setGolesVisitante(golesVisitante);
+
+        EquipoTorneo local = equipoTorneoRepository.findByEquipoAndTorneo(partido.getEquipoLocal(), partido.getTorneo())
+                .orElseThrow(() -> new ResourceNotFoundException("Equipo local no encontrado en el torneo"));
+
+        EquipoTorneo visitante = equipoTorneoRepository.findByEquipoAndTorneo(partido.getEquipoVisitante(), partido.getTorneo())
+                .orElseThrow(() -> new ResourceNotFoundException("Equipo visitante no encontrado en el torneo"));
+
+        aplicarResultado(local, golesLocal, golesVisitante);
+        aplicarResultado(visitante, golesVisitante, golesLocal);
+
+        equipoTorneoRepository.save(local);
+        equipoTorneoRepository.save(visitante);
 
         return partidoRepository.save(partido);
     }
@@ -157,7 +167,60 @@ public class PartidoService {
 
         Partido partido = buscarPartidoPorId(partidoId);
 
+        if (partido.getGolesLocal() != null && partido.getGolesVisitante() != null) {
+            EquipoTorneo local = equipoTorneoRepository
+                    .findByEquipoAndTorneo(partido.getEquipoLocal(), partido.getTorneo())
+                    .orElseThrow(() -> new ResourceNotFoundException("Equipo local no encontrado en el torneo"));
+
+            EquipoTorneo visitante = equipoTorneoRepository
+                    .findByEquipoAndTorneo(partido.getEquipoVisitante(), partido.getTorneo())
+                    .orElseThrow(() -> new ResourceNotFoundException("Equipo visitante no encontrado en el torneo"));
+
+            revertirResultado(local, partido.getGolesLocal(), partido.getGolesVisitante());
+            revertirResultado(visitante, partido.getGolesVisitante(), partido.getGolesLocal());
+
+            equipoTorneoRepository.save(local);
+            equipoTorneoRepository.save(visitante);
+        }
         eventoPartidoRepository.deleteByPartido(partido);
         partidoRepository.delete(partido);
+    }
+
+    private void revertirResultado(EquipoTorneo equipoTorneo, int golesFavor, int golesContra) {
+        equipoTorneo.setPartidosJugados(equipoTorneo.getPartidosJugados() - 1);
+        equipoTorneo.setGolesFavor(equipoTorneo.getGolesFavor() - golesFavor);
+        equipoTorneo.setGolesContra(equipoTorneo.getGolesContra() - golesContra);
+        equipoTorneo.setDiferenciaGol(
+                equipoTorneo.getGolesFavor() - equipoTorneo.getGolesContra()
+        );
+
+        if (golesFavor > golesContra) {
+            equipoTorneo.setPartidosGanados(equipoTorneo.getPartidosGanados() - 1);
+            equipoTorneo.setPuntos(equipoTorneo.getPuntos() - 3);
+        } else if (golesFavor == golesContra) {
+            equipoTorneo.setPartidosEmpatados(equipoTorneo.getPartidosEmpatados() - 1);
+            equipoTorneo.setPuntos(equipoTorneo.getPuntos() - 1);
+        } else {
+            equipoTorneo.setPartidosPerdidos(equipoTorneo.getPartidosPerdidos() - 1);
+        }
+    }
+
+    private void aplicarResultado(EquipoTorneo equipoTorneo, int golesFavor, int golesContra) {
+        equipoTorneo.setPartidosJugados(equipoTorneo.getPartidosJugados() + 1);
+        equipoTorneo.setGolesFavor(equipoTorneo.getGolesFavor() + golesFavor);
+        equipoTorneo.setGolesContra(equipoTorneo.getGolesContra() + golesContra);
+        equipoTorneo.setDiferenciaGol(
+                equipoTorneo.getGolesFavor() - equipoTorneo.getGolesContra()
+        );
+
+        if (golesFavor > golesContra) {
+            equipoTorneo.setPartidosGanados(equipoTorneo.getPartidosGanados() + 1);
+            equipoTorneo.setPuntos(equipoTorneo.getPuntos() + 3);
+        } else if (golesFavor == golesContra ) {
+            equipoTorneo.setPartidosEmpatados(equipoTorneo.getPartidosEmpatados() + 1);
+            equipoTorneo.setPuntos(equipoTorneo.getPuntos() + 1);
+        } else {
+            equipoTorneo.setPartidosPerdidos(equipoTorneo.getPartidosPerdidos() + 1);
+        }
     }
 }

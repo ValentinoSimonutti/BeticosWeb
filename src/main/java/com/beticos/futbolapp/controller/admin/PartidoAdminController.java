@@ -166,10 +166,16 @@ public class PartidoAdminController {
                     name = "eventoTipo")
             List<String> eventoTipos) {
 
-        partidoService.cargarResultado(
-                partidoId,
-                golesLocal,
-                golesVisitante);
+        Partido partido = partidoService.buscarPartidoPorId(partidoId);
+
+        if (partido.getGolesLocal() == null &&
+                partido.getGolesVisitante() == null) {
+
+            partidoService.cargarResultado(
+                    partidoId,
+                    golesLocal,
+                    golesVisitante);
+        }
 
         eventoPartidoService.reemplazarEventosDePartido(
                 partidoId,

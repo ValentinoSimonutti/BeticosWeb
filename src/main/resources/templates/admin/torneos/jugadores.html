@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Jugadores del torneo</title>
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>
+            Jugadores -
+            <span th:text="${torneo.nombre}"></span>
+        </h1>
+
+        <p>
+            Estadísticas calculadas desde los eventos cargados en los partidos.
+        </p>
+
+    </div>
+
+    <div class="card mt-20">
+
+        <h2>Estadísticas por jugador</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Jugador</th>
+                <th>Equipo</th>
+                <th>Goles</th>
+                <th>Asistencias</th>
+                <th>Amarillas</th>
+                <th>Rojas</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:if="${#lists.isEmpty(estadisticasJugadores)}">
+                <td colspan="7" class="text-center">
+                    No hay jugadores cargados.
+                </td>
+            </tr>
+
+            <tr th:each="estadistica : ${estadisticasJugadores}">
+                <td th:text="${estadistica.jugador.nombreCompleto}"></td>
+                <td th:text="${estadistica.jugador.equipo != null ? estadistica.jugador.equipo.nombre : 'Sin equipo'}"></td>
+                <td th:text="${estadistica.goles}"></td>
+                <td th:text="${estadistica.asistencias}"></td>
+                <td th:text="${estadistica.amarillas}"></td>
+                <td th:text="${estadistica.rojas}"></td>
+                <td class="actions">
+                    <a th:href="@{/admin/jugadores/{id}(id=${estadistica.jugador.id})}"
+                       class="btn btn-primary">
+                        Perfil
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="actions mt-20">
+            <a th:href="@{/admin/torneos}"
+               class="btn btn-secondary">
+                Volver
+            </a>
+
+            <a th:href="@{/admin/torneos/{id}/equipos(id=${torneo.id})}"
+               class="btn btn-primary">
+                Equipos
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

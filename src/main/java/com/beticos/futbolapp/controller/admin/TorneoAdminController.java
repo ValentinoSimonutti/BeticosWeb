@@ -2,8 +2,10 @@ package com.beticos.futbolapp.controller.admin;
 
 import com.beticos.futbolapp.model.Torneo;
 import com.beticos.futbolapp.model.enums.EstadoTorneo;
+import com.beticos.futbolapp.service.EventoPartidoService;
 import com.beticos.futbolapp.service.EquipoService;
 import com.beticos.futbolapp.service.EquipoTorneoService;
+import com.beticos.futbolapp.service.JugadorService;
 import com.beticos.futbolapp.service.TorneoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +18,20 @@ public class TorneoAdminController {
     private final TorneoService torneoService;
     private final EquipoService equipoService;
     private final EquipoTorneoService equipoTorneoService;
+    private final JugadorService jugadorService;
+    private final EventoPartidoService eventoPartidoService;
 
-    public TorneoAdminController(TorneoService torneoService,EquipoService equipoService,EquipoTorneoService equipoTorneoService) {
+    public TorneoAdminController(
+            TorneoService torneoService,
+            EquipoService equipoService,
+            EquipoTorneoService equipoTorneoService,
+            JugadorService jugadorService,
+            EventoPartidoService eventoPartidoService) {
         this.equipoService = equipoService;
         this.torneoService = torneoService;
         this.equipoTorneoService = equipoTorneoService;
+        this.jugadorService = jugadorService;
+        this.eventoPartidoService = eventoPartidoService;
     }
 
     @GetMapping
@@ -92,6 +103,23 @@ public class TorneoAdminController {
                 equipoTorneoService.listarEquiposDeTorneo(id));
 
         return "admin/torneos/equipos";
+    }
+
+    @GetMapping("/{id}/jugadores")
+    public String estadisticasJugadores(
+            @PathVariable Long id,
+            Model model) {
+
+        Torneo torneo = torneoService.buscarTorneoPorId(id);
+
+        model.addAttribute("torneo", torneo);
+        model.addAttribute(
+                "estadisticasJugadores",
+                eventoPartidoService.calcularEstadisticasJugadoresEnTorneo(
+                        torneo,
+                        jugadorService.listarJugadores()));
+
+        return "admin/torneos/jugadores";
     }
 
     @PostMapping("/{torneoId}/equipos")

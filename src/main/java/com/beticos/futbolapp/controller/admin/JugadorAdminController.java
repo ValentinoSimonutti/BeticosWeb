@@ -2,8 +2,8 @@ package com.beticos.futbolapp.controller.admin;
 
 import com.beticos.futbolapp.model.Equipo;
 import com.beticos.futbolapp.model.Jugador;
-import com.beticos.futbolapp.repository.EquipoRepository;
 import com.beticos.futbolapp.service.EquipoService;
+import com.beticos.futbolapp.service.EventoPartidoService;
 import com.beticos.futbolapp.service.JugadorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +17,29 @@ public class JugadorAdminController {
 
     private final JugadorService jugadorService;
     private final EquipoService equipoService;
+    private final EventoPartidoService eventoPartidoService;
 
-    public JugadorAdminController(JugadorService jugadorService, EquipoService equipoService) {
+    public JugadorAdminController(JugadorService jugadorService, EquipoService equipoService, EventoPartidoService eventoPartidoService) {
         this.jugadorService = jugadorService;
         this.equipoService = equipoService;
+        this.eventoPartidoService = eventoPartidoService;
     }
 
     @GetMapping
     public String listar (Model model){
         model.addAttribute("jugadores", jugadorService.listarJugadores());
         return "admin/jugadores/listado";
+    }
+
+    @GetMapping("/{id}")
+    public String perfil(@PathVariable Long id, Model model) {
+        Jugador jugador = jugadorService.buscarJugadorPorId(id);
+
+        model.addAttribute("jugador", jugador);
+        model.addAttribute("estadisticas", eventoPartidoService.calcularEstadisticasJugador(jugador));
+        model.addAttribute("eventos", eventoPartidoService.findAllJugador(jugador));
+
+        return "admin/jugadores/perfil";
     }
 
     @GetMapping("/nuevo")

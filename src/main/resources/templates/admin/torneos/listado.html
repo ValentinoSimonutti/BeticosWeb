@@ -58,6 +58,11 @@
                         Equipos
                     </a>
 
+                    <a th:href="@{/admin/torneos/{id}/jugadores(id=${torneo.id})}"
+                       class="btn btn-primary">
+                        Jugadores
+                    </a>
+
                     <a th:href="@{/admin/torneos/{id}/editar(id=${torneo.id})}"
                        class="btn btn-warning">
                         Editar

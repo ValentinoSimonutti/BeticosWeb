@@ -48,6 +48,11 @@
                 <td th:text="${jugador.posicion}"></td>
                 <td th:text="${jugador.equipo.nombre}"></td>
                 <td class="actions">
+                    <a th:href="@{/admin/jugadores/{id}(id=${jugador.id})}"
+                       class="btn btn-primary">
+                        Perfil
+                    </a>
+
                     <a th:href="@{/admin/jugadores/{id}/editar(id=${jugador.id})}"
                        class="btn btn-warning">
                         Editar

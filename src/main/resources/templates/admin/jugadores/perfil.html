@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Perfil del jugador</title>
+
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1 th:text="${jugador.nombreCompleto}"></h1>
+
+        <p class="mb-20">
+            <strong>Equipo:</strong>
+            <span th:text="${jugador.equipo != null ? jugador.equipo.nombre : 'Sin equipo'}"></span>
+        </p>
+
+        <p class="mb-20">
+            <strong>Posición:</strong>
+            <span th:text="${jugador.posicion}"></span>
+        </p>
+
+        <p th:if="${jugador.descripcion != null and !jugador.descripcion.isBlank()}"
+           th:text="${jugador.descripcion}">
+        </p>
+
+    </div>
+
+    <div class="card mt-20">
+
+        <h2>Estadísticas históricas</h2>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <span class="stat-label">Goles</span>
+                <strong th:text="${estadisticas.goles}"></strong>
+            </div>
+
+            <div class="stat-box">
+                <span class="stat-label">Asistencias</span>
+                <strong th:text="${estadisticas.asistencias}"></strong>
+            </div>
+
+            <div class="stat-box">
+                <span class="stat-label">Amarillas</span>
+                <strong th:text="${estadisticas.amarillas}"></strong>
+            </div>
+
+            <div class="stat-box">
+                <span class="stat-label">Rojas</span>
+                <strong th:text="${estadisticas.rojas}"></strong>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card mt-20">
+
+        <h2>Eventos registrados</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Torneo</th>
+                <th>Fecha</th>
+                <th>Partido</th>
+                <th>Evento</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:if="${#lists.isEmpty(eventos)}">
+                <td colspan="4" class="text-center">
+                    Este jugador todavía no tiene eventos registrados.
+                </td>
+            </tr>
+
+            <tr th:each="evento : ${eventos}">
+                <td th:text="${evento.partido.torneo.nombre}"></td>
+                <td th:text="${evento.partido.fecha.numero}"></td>
+                <td>
+                    <span th:text="${evento.partido.equipoLocal.nombre}"></span>
+                    <span th:if="${evento.partido.golesLocal != null and evento.partido.golesVisitante != null}"
+                          th:text="${' ' + evento.partido.golesLocal + ' - ' + evento.partido.golesVisitante + ' '}">
+                    </span>
+                    <span th:unless="${evento.partido.golesLocal != null and evento.partido.golesVisitante != null}">
+                        vs
+                    </span>
+                    <span th:text="${evento.partido.equipoVisitante.nombre}"></span>
+                </td>
+                <td th:text="${evento.tipo}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="actions mt-20">
+            <a th:href="@{/admin/jugadores}"
+               class="btn btn-secondary">
+                Volver
+            </a>
+
+            <a th:href="@{/admin/jugadores/{id}/editar(id=${jugador.id})}"
+               class="btn btn-warning">
+                Editar
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 package com.beticos.futbolapp.service;
 
+import com.beticos.futbolapp.dto.EstadisticasJugadorDTO;
 import com.beticos.futbolapp.exception.BadRequestException;
 import com.beticos.futbolapp.exception.ResourceNotFoundException;
 import com.beticos.futbolapp.model.*;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -56,29 +58,53 @@ public class EventoPartidoService {
     }
 
     @Transactional(readOnly = true)
-    public List<EventoPartido> findAllEventoPartidoJugador(Partido partido, Jugador jugador) {
-        return this.eventoPartidoRepository.findByPartidoAndJugador(partido, jugador);
-    }
-
-    @Transactional(readOnly = true)
-    public List<EventoPartido> findAllEventoPartidoByTorneo(Torneo torneo) {
-        return this.eventoPartidoRepository.findByPartido_Torneo(torneo);
-    }
-
-    @Transactional(readOnly = true)
     public List<EventoPartido> findAllJugador(Jugador jugador) {
         return this.eventoPartidoRepository.findByJugador(jugador);
     }
 
     @Transactional(readOnly = true)
-    public List<EventoPartido> findAllTorneoJugador(Torneo torneo, Jugador jugador) {
-        return this.eventoPartidoRepository.findByPartido_TorneoAndJugador(torneo, jugador);
-
+    public long contarEventosDeJugadorEnTorneo (Torneo torneo, Jugador jugador, TipoEventoPartido tipo) {
+        return this.eventoPartidoRepository.countByPartido_TorneoAndJugadorAndTipo(torneo, jugador, tipo);
     }
 
     @Transactional(readOnly = true)
-    public long contarEventosDeJugadorEnTorneo (Torneo torneo, Jugador jugador, TipoEventoPartido tipo) {
-        return this.eventoPartidoRepository.countByPartido_TorneoAndJugadorAndTipo(torneo, jugador, tipo);
+    public long contarEventosDeJugador(Jugador jugador, TipoEventoPartido tipo) {
+        return this.eventoPartidoRepository.countByJugadorAndTipo(jugador, tipo);
+    }
+
+    @Transactional(readOnly = true)
+    public EstadisticasJugadorDTO calcularEstadisticasJugador(Jugador jugador) {
+        return new EstadisticasJugadorDTO(
+                jugador,
+                contarEventosDeJugador(jugador, TipoEventoPartido.GOL),
+                contarEventosDeJugador(jugador, TipoEventoPartido.ASISTENCIA),
+                contarEventosDeJugador(jugador, TipoEventoPartido.AMARILLA),
+                contarEventosDeJugador(jugador, TipoEventoPartido.ROJA)
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public EstadisticasJugadorDTO calcularEstadisticasJugadorEnTorneo(Torneo torneo, Jugador jugador) {
+        return new EstadisticasJugadorDTO(
+                jugador,
+                contarEventosDeJugadorEnTorneo(torneo, jugador, TipoEventoPartido.GOL),
+                contarEventosDeJugadorEnTorneo(torneo, jugador, TipoEventoPartido.ASISTENCIA),
+                contarEventosDeJugadorEnTorneo(torneo, jugador, TipoEventoPartido.AMARILLA),
+                contarEventosDeJugadorEnTorneo(torneo, jugador, TipoEventoPartido.ROJA)
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public List<EstadisticasJugadorDTO> calcularEstadisticasJugadoresEnTorneo(Torneo torneo, List<Jugador> jugadores) {
+        return jugadores.stream()
+                .map(jugador -> calcularEstadisticasJugadorEnTorneo(torneo, jugador))
+                .sorted(Comparator
+                        .comparingLong(EstadisticasJugadorDTO::getGoles).reversed()
+                        .thenComparing(Comparator.comparingLong(EstadisticasJugadorDTO::getAsistencias).reversed())
+                        .thenComparing(Comparator.comparingLong(EstadisticasJugadorDTO::getAmarillas).reversed())
+                        .thenComparing(Comparator.comparingLong(EstadisticasJugadorDTO::getRojas).reversed())
+                        .thenComparing(estadisticas -> estadisticas.getJugador().getNombreCompleto()))
+                .toList();
     }
 
     @Transactional
@@ -92,7 +118,7 @@ public class EventoPartidoService {
                         new ResourceNotFoundException(
                                 "Partido no encontrado"));
 
-        eventoPartidoRepository.deleteByPartido(partido);
+        deleteEventosDePartido(partido);
 
         List<String> ids = jugadorIds != null
                 ? jugadorIds
@@ -132,11 +158,7 @@ public class EventoPartidoService {
 
             TipoEventoPartido tipo = convertirTipoEvento(tipoTexto);
 
-            eventoPartidoRepository.save(
-                    new EventoPartido(
-                            partido,
-                            jugador,
-                            tipo));
+            crearEventoPartido(partido, jugador, tipo);
         }
     }
 

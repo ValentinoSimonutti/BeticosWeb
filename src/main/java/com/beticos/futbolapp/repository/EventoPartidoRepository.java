@@ -10,13 +10,9 @@ public interface EventoPartidoRepository extends JpaRepository<EventoPartido, Lo
 
     List<EventoPartido> findByPartido(Partido partido);
 
-    List<EventoPartido> findByPartido_Torneo(Torneo torneo);
-
-    List<EventoPartido> findByPartidoAndJugador(Partido partido, Jugador jugador);
-
     List<EventoPartido> findByJugador(Jugador jugador);
 
-    List<EventoPartido> findByPartido_TorneoAndJugador(Torneo torneo, Jugador jugador);
+    long countByJugadorAndTipo(Jugador jugador, TipoEventoPartido tipo);
 
     long countByPartido_TorneoAndJugadorAndTipo(Torneo torneo, Jugador jugador, TipoEventoPartido tipo);
 

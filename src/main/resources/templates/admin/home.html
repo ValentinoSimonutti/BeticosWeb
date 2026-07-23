@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
 
-    <title>Panel de administración</title>
+    <title>Panel de Administración</title>
 
     <link rel="stylesheet" th:href="@{/css/app.css}">
 
@@ -15,61 +15,103 @@
 
 <body>
 
-<main class="container admin-home">
+<!-- HEADER -->
+<div th:replace="~{admin/fragments/header :: header}"></div>
 
-    <section class="card home-hero">
+<div class="layout">
 
-        <div class="home-brand">
+    <!-- SIDEBAR -->
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
 
-            <img th:src="@{/img/escudo-beticos.png}"
-                 alt="Escudo de Béticos"
-                 class="home-crest">
+    <!-- CONTENIDO -->
+    <main class="content">
 
-            <div>
-                <p class="home-kicker">Panel de administración</p>
-                <h1>Béticos</h1>
-                <p class="home-description">
-                    Intento de jugar al fulbo
-                </p>
-            </div>
+        <div class="container admin-home">
+
+            <section class="card home-hero">
+
+                <div class="home-brand">
+
+                    <img th:src="@{/img/escudo-beticos.png}"
+                         alt="Escudo de Beticos"
+                         class="home-crest">
+
+                    <div>
+
+                        <p class="home-kicker">
+                            Panel de Administración
+                        </p>
+
+                        <h1>Bienvenido a Beticos</h1>
+
+                        <p class="home-description">
+
+                            Desde el menú lateral podés administrar
+                            jugadores, equipos y torneos.
+
+                            Todas las funcionalidades del sistema
+                            se encuentran organizadas desde ese menú.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <span class="home-ball">
+
+                    ⚽
+
+                </span>
+
+            </section>
+
+            <section class="card mt-20">
+
+                <h2>Módulos disponibles</h2>
+
+                <ul class="home-feature-list">
+
+                    <li>Administración de jugadores</li>
+
+                    <li>Administración de equipos</li>
+
+                    <li>Administración de torneos</li>
+
+                    <li>Creación de fechas</li>
+
+                    <li>Creación de partidos</li>
+
+                </ul>
+
+            </section>
+
+            <section class="card mt-20">
+
+                <h2>Próximamente</h2>
+
+                <ul class="home-feature-list">
+
+                    <li>Historial de jugadores</li>
+
+                    <li>Eventos por torneo</li>
+
+                    <li>Estadísticas generales</li>
+
+                    <li>Dashboard con métricas</li>
+
+                </ul>
+
+            </section>
 
         </div>
 
-        <div class="actions home-actions">
+    </main>
 
-            <a th:href="@{/admin/equipos}"
-               class="btn btn-primary">
-                Equipos
-            </a>
+</div>
 
-            <a th:href="@{/admin/jugadores}"
-               class="btn btn-primary">
-                Jugadores
-            </a>
-
-            <a th:href="@{/admin/torneos}"
-               class="btn btn-primary">
-                Torneos
-            </a>
-
-        </div>
-
-        <span class="home-ball" aria-hidden="true">⚽</span>
-
-    </section>
-
-    <section class="card home-upcoming mt-20">
-
-        <h2>Próximamente</h2>
-
-        <ul class="home-feature-list">
-            <li>Listar eventos de los jugadores en un torneo</li>
-            <li>Listar eventos de los jugadores historico</li>
-        </ul>
-
-    </section>
-
-</main>
+<!-- FOOTER -->
+<div th:replace="~{admin/fragments/footer :: footer}"></div>
 
 </body>
 

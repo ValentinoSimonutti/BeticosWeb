@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="sidebar">
+
+    <aside class="sidebar">
+
+        <nav>
+
+            <a th:href="@{/admin/home}"
+               class="sidebar-item">
+
+                🏠 Inicio
+
+            </a>
+
+            <a th:href="@{/admin/jugadores}"
+               class="sidebar-item">
+
+                👤 Jugadores
+
+            </a>
+
+            <a th:href="@{/admin/equipos}"
+               class="sidebar-item">
+
+                ⚽ Equipos
+
+            </a>
+
+            <a th:href="@{/admin/torneos}"
+               class="sidebar-item">
+
+                🏆 Torneos
+
+            </a>
+
+        </nav>
+
+    </aside>
+
+</th:block>
+
+</html>

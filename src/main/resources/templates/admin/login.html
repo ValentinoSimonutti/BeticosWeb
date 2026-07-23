@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Beticos | Panel de Administración</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/login.css}">
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="logo">
+
+        <img th:src="@{/img/escudo-beticos.png}"
+             alt="Escudo Beticos">
+
+    </div>
+
+    <h1>BETICOS</h1>
+
+    <p class="subtitle">
+
+        Panel de Administración
+
+    </p>
+
+    <form th:action="@{/login}"
+          method="post">
+
+        <div class="form-group">
+
+            <label>Email</label>
+
+            <input
+                    type="email"
+                    name="username"
+                    placeholder="Ingrese su email"
+                    required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Contraseña</label>
+
+            <input
+                    type="password"
+                    name="password"
+                    placeholder="Ingrese su contraseña"
+                    required>
+
+        </div>
+
+        <button type="submit">
+
+            Ingresar
+
+        </button>
+
+    </form>
+
+    <div class="error"
+         th:if="${param.error}">
+
+        Usuario o contraseña incorrectos.
+
+    </div>
+
+    <div class="logout"
+         th:if="${param.logout}">
+
+        La sesión fue cerrada correctamente.
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

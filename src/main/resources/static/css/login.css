@@ -1,0 +1,191 @@
+/* ===========================
+   RESET
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: linear-gradient(135deg,#046A38,#0C8A4A);
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+/* ===========================
+   TARJETA
+=========================== */
+
+.login-container{
+
+    width:420px;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:40px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+
+}
+
+/* ===========================
+   LOGO
+=========================== */
+
+.logo{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin-bottom:20px;
+
+}
+
+.logo img{
+
+    width:110px;
+
+}
+
+/* ===========================
+   TITULOS
+=========================== */
+
+h1{
+
+    text-align:center;
+
+    color:#046A38;
+
+    margin-bottom:5px;
+
+}
+
+.subtitle{
+
+    text-align:center;
+
+    color:#777;
+
+    margin-bottom:30px;
+
+}
+
+/* ===========================
+   INPUTS
+=========================== */
+
+.form-group{
+
+    margin-bottom:18px;
+
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:bold;
+
+    color:#333;
+
+}
+
+input{
+
+    width:100%;
+
+    padding:14px;
+
+    border:1px solid #CCC;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+}
+
+input:focus{
+
+    outline:none;
+
+    border-color:#046A38;
+
+}
+
+/* ===========================
+   BOTON
+=========================== */
+
+button{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#046A38;
+
+    color:white;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+button:hover{
+
+    background:#03572e;
+
+}
+
+/* ===========================
+   MENSAJES
+=========================== */
+
+.error{
+
+    margin-top:20px;
+
+    text-align:center;
+
+    color:#D32F2F;
+
+    font-weight:bold;
+
+}
+
+.logout{
+
+    margin-top:20px;
+
+    text-align:center;
+
+    color:#2E7D32;
+
+    font-weight:bold;
+
+}

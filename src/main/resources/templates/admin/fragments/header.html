@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="header">
+
+    <header class="admin-header">
+
+        <div class="header-logo">
+
+            <img th:src="@{/img/escudo-beticos.png}"
+                 alt="Escudo Beticos">
+
+            <div>
+
+                <h2>BETICOS</h2>
+
+                <span>Panel de Administración</span>
+
+            </div>
+
+        </div>
+
+        <div class="header-user">
+
+            <span class="user-name">
+
+                👤 <span sec:authentication="name"></span>
+
+            </span>
+
+            <form th:action="@{/logout}"
+                  method="post">
+
+                <button
+                        class="btn btn-danger btn-small"
+                        type="submit">
+
+                    Cerrar sesión
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </header>
+
+</th:block>
+
+</html>

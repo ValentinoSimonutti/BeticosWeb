@@ -24,7 +24,7 @@ public class DataInitializer {
 
                 Usuario u2 = new Usuario();
                 u2.setNombre("Agus");
-                u2.setEmail("Agus@beticos.com");
+                u2.setEmail("agus@beticos.com");
                 u2.setPassword(encoder.encode("123456"));
 
                 repo.save(u1);

@@ -7,7 +7,9 @@
 
     <header class="admin-header">
 
-        <div class="header-logo">
+        <a th:href="@{/admin/home}"
+           class="header-logo"
+           aria-label="Volver al inicio">
 
             <img th:src="@{/img/escudo-beticos.png}"
                  alt="Escudo Beticos">
@@ -20,7 +22,7 @@
 
             </div>
 
-        </div>
+        </a>
 
         <div class="header-user">
 
